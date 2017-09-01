@@ -11,6 +11,8 @@
         <div class="panel-body">
           <!-- List group -->
           <div class="list-group">
+          {{-- <form method="POST">
+          {{ csrf_field() }} --}}
             <div class="tournament" id="{{ $tournament->id }}">
               <h2>{{ $tournament->tournament_name }} </h2>
               @for ($i=0; $i<$tournament->groups_number; $i++)
@@ -25,10 +27,10 @@
                 @endforeach
               </ul>
               
-              <ul class="col-md-9 col-md-offset-1">
-                <button type="submit" class="list-group-item btn btn-default" id="submit-groups" name="submit-groups">Create</button>
-              </ul>
-
+              <div class="col-md-9 col-md-offset-1">
+                <button  class="list-group-item btn btn-default" id="submit-groups" name="submit-groups">Create</button>
+              </div>
+            {{-- </form> --}}
             </div>
           </div>
         </div>
@@ -88,6 +90,7 @@
               $.ajax({
                   type: 'POST',
                   url: '/generate',
+                  dataType:'json',
                   data: {
                       'group1_player_ids': group1_player_ids,
                       'group2_player_ids': group2_player_ids,
@@ -95,8 +98,13 @@
                       'group_ids': group_ids
                   },
                   
-                  success: function(){ // What to do if we succeed
-                      console.log("Data sent"); 
+                  success: function(response){ // What to do if we succeed
+                      if(response.status == 'success') {
+                        window.location = "/tournaments/" + response.tournament + "/groups";
+                        return;
+                      }
+
+                      console.log('ERROR');  
                   },
               });
           });

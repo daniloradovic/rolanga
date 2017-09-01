@@ -47,11 +47,7 @@ class Round extends Model
                 'group_id' => $group->id
                 ]);
     	}
-        $first = array_splice($groupUsers,0,1)[0];
-        array_unshift($groupUsers, array_pop($groupUsers));
-        array_unshift($groupUsers, $first);
-
-        return ('$groupUsers');
+        
 
         // dd($first = array_splice($groupUsers, 0, 1)[0], array_unshift($groupUsers, array_pop($groupUsers)), array_unshift($groupUsers, $first), $groupUsers);
     

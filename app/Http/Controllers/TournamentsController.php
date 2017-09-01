@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use App\Tournament;
 use App\User;
 use App\Group;
@@ -95,9 +97,12 @@ class TournamentsController extends Controller
 
 	}
 
-	public function generateGroups(Request $request)
+	public function generateGroups(Request $request, Tournament $tournament)
 	{	
-		
+		// if($request->ajax()){
+		// 	dd('ajax request');
+		// }
+		// dd('http');
 		$tournament = Tournament::find($request->tournament_id);
 		$users = $tournament->users;
 		$groups = $tournament->groups;
@@ -115,7 +120,10 @@ class TournamentsController extends Controller
 			$group->save();
 
 		}	
-		return redirect()->route('showGroups', ['tournament' => $tournament->id]);
+
+		
+		return response()->json(['status' => 'success', 'tournament' => $tournament->id ]);
+		// return redirect()->action('TournamentsController@showGroups', ['tournament' => $tournament->id]);
 
 	}
 

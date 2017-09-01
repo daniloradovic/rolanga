@@ -204,7 +204,7 @@
                           <div class="pannel pannel-default center">
                             <div class="panel-heading" role="tab" id="headingB{{$round->round_number}}">
                               <h4 class="pannel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordionB" href="#collapseB{{$round->round_numbe}}" aria-expanded="true" aria-controls="collapseB{{$round->round_number}}">Round {{$round->round_number}} </a>
+                                <a role="button" data-toggle="collapse" data-parent="#accordionB" href="#collapseB{{$round->round_number}}" aria-expanded="true" aria-controls="collapseB{{$round->round_number}}">Round {{$round->round_number}} </a>
                               </h2>
                             </div>
                           </div>

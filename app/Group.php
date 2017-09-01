@@ -59,8 +59,14 @@ class Group extends Model
         $groupUsers = ($this->users)->toArray();
 
         foreach ($rounds as $round){
-            
+
             $round->generateMatches($groupUsers);
+
+            $first = array_splice($groupUsers,0,1)[0];
+            array_unshift($groupUsers, array_pop($groupUsers));
+            array_unshift($groupUsers, $first);
+            
+            $groupUsers;
 
         }
     }
