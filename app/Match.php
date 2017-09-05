@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Round;
 use App\User;
 use App\Group;
+use App\Set;
+use App\Tournament;
 
 
 class Match extends Model
@@ -23,7 +25,7 @@ class Match extends Model
 	public function sets()
 	{
 
-		return $this->hasMany(SetScore::class);
+		return $this->hasMany(Set::class);
 		
 	}
 
@@ -46,5 +48,26 @@ class Match extends Model
 		return $this->belongsTo(Round::class);
 	}
 
+	public function tournament()
+	{
+
+		return $this->belongsTo(Tournament::class);
+
+	}
+
+	public function generateSets()
+	{
+
+		$set_no = 5;
+
+		for($i=1; $i<=$set_no; $i++)
+		{
+			$set[$i] = $this->sets()->create([
+				'set_number' => $i
+			]);
+
+		}
+
+	}
 	
 }

@@ -11,6 +11,7 @@ use App\User;
 use App\Group;
 use App\Round;
 use App\Match;
+use App\Set;
 use Auth;
 
 
@@ -127,11 +128,13 @@ class TournamentsController extends Controller
 
 	}
 
-	public function showGroups(Tournament $tournament, Group $groups, User $users, Round $rounds, Match $matches)
+	public function showGroups(Tournament $tournament, Group $groups, User $users, Round $rounds, Match $matches, Set $sets)
 	{
 
-		return view('groups.index', compact('tournament', 'users', 'groups', 'rounds', 'matches'));
+		return view('groups.index', compact('tournament', 'users', 'groups', 'rounds', 'matches', 'sets'));
 
 	}
+
+
 
 }

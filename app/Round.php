@@ -47,6 +47,10 @@ class Round extends Model
                 'group_id' => $group->id
                 ]);
     	}
+
+        foreach($matches as $match){
+            $match->generateSets();
+        }
         
 
         // dd($first = array_splice($groupUsers, 0, 1)[0], array_unshift($groupUsers, array_pop($groupUsers)), array_unshift($groupUsers, $first), $groupUsers);

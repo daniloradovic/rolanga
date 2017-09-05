@@ -32,3 +32,7 @@ Route::get('/tournaments/{tournament}', 'TournamentsController@show')->name('sho
 Route::post('/generate', 'TournamentsController@generateGroups');
 
 Route::get('/tournaments/{tournament}/groups', 'TournamentsController@showGroups')->name('showGroups');
+
+Route::get('/tournaments/{tournament}/matches/{match}/edit', 'SetsController@edit');
+
+Route::patch('/tournaments/{tournament}/matches/{match}', 'SetsController@update')->name('setScore');

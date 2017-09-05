@@ -57,7 +57,7 @@ class Group extends Model
         }
         
         $groupUsers = ($this->users)->toArray();
-
+        
         foreach ($rounds as $round){
 
             $round->generateMatches($groupUsers);

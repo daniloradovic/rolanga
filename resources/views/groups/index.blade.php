@@ -50,116 +50,89 @@
                   <div class="day_wrapper">
                     <div class="group collapse" id="collapseGroupA" >           
                       @foreach($tournament->groups[0]->rounds as $round)
-                        <div class="round">
-                          <div class="pannel-group" id="accordionA" role="tablist" aria-multiselectable="true">
-                            <div class="pannel pannel-default center">
-                              <div class="panel-heading" role="tab" id="headingA{{$round->round_number}}">
-                                <h4 class="pannel-title">
-                                  <a role="button" data-toggle="collapse" data-parent="#accordionA" href="#collapseA{{$round->round_number}}" aria-expanded="true" aria-controls="collapseA{{$round->round_number}}">Round {{$round->round_number}} </a>
-                                </h2>
-                              </div>
+                      <div class="round">
+                        <div class="pannel-group" id="accordionA" role="tablist" aria-multiselectable="true">
+                          <div class="pannel pannel-default center">
+                            <div class="panel-heading" role="tab" id="headingA{{$round->round_number}}">
+                              <h4 class="pannel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordionA" href="#collapseA{{$round->round_number}}" aria-expanded="true" aria-controls="collapseA{{$round->round_number}}">Round {{$round->round_number}} </a>
+                              </h2>
                             </div>
-                            <div id="collapseA{{$round->round_number}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingA{{$round->round_number}}">
-                              <div class="panel-body">
-                                <div class="games_list">
+                          </div>
+                          <div id="collapseA{{$round->round_number}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingA{{$round->round_number}}">
+                            <div class="panel-body">
+                              <div class="games_list">
                                 @foreach($round->matches as $match)
-                                    <div class="game_item">                                        
-                                        <div class="participants">
-                                          <table class="country left .col-md-1">
-                                            <tbody>
-                                              <tr>
-                                                <td class="country_col">
-                                                  <div class="name">
-                                                    <span>{{$users->where('id','=',$match->first_player_id)->get()->pluck('name')}}</span>
-                                                  </div>
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                          <table class="table table-borderless points">
-                                            <tbody>
-                                              <tr>
-                                                <th class="center">Set1</th>
-                                                <th class="center">Set2</th>
-                                                <th class="center">Set3</th>
-                                                <th class="center">Set4</th>
-                                                <th class="center">Set5</th>
-                                              </tr>
-                                              <form action="/scores" method="POST">
-                                                {{csrf_field()}}
-                                                <tr>
-                                                 <td>
-                                                   <div class="col-md-2">
-                                                     <div class="form-group row center">
-                                                       <input type="number"  id="setOnePlayerOne" name="setOnePlayerOne" max="7" min="0">
-                                                       <input type="number"  id="setOnePlayerTwo" name="setOnePlayerTwo" max="7" min="0">
-                                                     </div>
-                                                   </div>
-                                                 </td>
-                                                 <td>
-                                                   <div class="col-md-2">
-                                                     <div class="form-group row center">
-                                                       <input type="number" id="setTwoPlayerOne" name="setTwoPlayerOne" max="7" min="0">
-                                                       <input type="number"  id="setTwoPlayerTwo" name="setTwoPlayerTwo" max="7" min="0">
-                                                     </div>
-                                                   </div>
-                                                 </td>
-                                                 <td>
-                                                   <div class="col-md-2">
-                                                     <div class="form-group row center">
-                                                       <input type="number" id="setThreePlayerOne" name="setThreePlayerOne" max="7" min="0">
-                                                       <input type="number" id="setThreePlayerTwo" name="setThreePlayerTwo" max="7" min="1">
-                                                     </div>
-                                                   </div>
-                                                 </td>
-                                                 <td>
-                                                   <div class="col-md-2">
-                                                     <div class="form-group row center">
-                                                       <input type="number" id="setFourPlayerOne" name="setFourPlayerOne" max="7" min="0">
-                                                       <input type="number" id="setFourPlayerTwo" name="setFourPlayerTwo" max="7" min="0">
-                                                     </div>
-                                                   </div>
-                                                 </td>
-                                                 <td>
-                                                   <div class="col-md-2">
-                                                     <div class="form-group row center">
-                                                       <input type="number"   id="setFivePlayerOne" name="setFivePlayerOne" max="7" min="0">
-                                                       <input type="number"  id="setFivePlayerTwo" name="setFivePlayerTwo" max="7" min="0">
-                                                     </div>
-                                                   </div>
-                                                 </td>
-                                               </tr>
-                                             </form>
-                                           </tbody>
-                                          </table>
-                                          <table class="country right .col-md-1">
-                                            <tbody>
-                                              <tr>
-                                                <td class="country_col">
-                                                  <div class="name">
-                                                    <span>{{$users->where('id','=',$match->second_player_id)->get()->pluck('name')}}</span>
-                                                  </div>
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        </div>
-                                        <div class="additional_content">
-                                          <button type="submit" class="btn btn-sm">Save</button>
-                                        </div>
-                                    </div>
-                                  @endforeach
+                                <div class="game_item" id="match{{ $match->id }}">                                        
+                                  <div class="participants">
+                                  <form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}/edit" method="GET">
+                                  {{-- <form action="/scores" method="POST"> --}}
+                                    {{csrf_field()}}
+                                    <table class="country left .col-md-1">
+                                      <tbody>
+                                        <tr>
+                                          <td class="country_col">
+                                            <div class="name">
+                                              <span>{{$users->where('id','=',$match->first_player_id)->get()->pluck('name')}}</span>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                    <table class="table table-borderless points">
+                                      <tbody>
+                                        <tr>
+                                        @foreach($match->sets as $set)
+                                          <th class="center">Set{{ $set->set_number }}</th>
+                                        @endforeach
+                                        </tr>
+                                          <tr>
+                                          @foreach($match->sets as $set)
+                                           <td class="form-group row center">
+                                             {{-- <div class="col-md-2">
+                                               <div class="form-group row center">
+                                                @for($i=1; $i<=2; $i++)
+                                                  <input type="number"  id="set{{ $set->id }}player{{ $i }}" name="set{{ $set->id }}player{{ $i }}" max="7" min="0">
+                                                @endfor
+                                               </div>
+                                             </div> --}}
+
+                                            <p class="col-md-2">{{ $set->first_player_games }}</p>
+                                            <p class="col-md-2">{{ $set->second_player_games }}</p>
+                                           </td>
+                                           @endforeach
+                                         </tr>                                       
+                                     </tbody>
+                                   </table>
+                                   <table class="country right .col-md-1">
+                                    <tbody>
+                                      <tr>
+                                        <td class="country_col">
+                                          <div class="name">
+                                            <span>{{$users->where('id','=',$match->second_player_id)->get()->pluck('name')}}</span>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <div class="additional_content">
+                                  <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm" id="match{{ $match->id }}">Edit result</button>
                                 </div>
                               </div>
+                              </form>
+                              @endforeach
                             </div>
                           </div>
                         </div>
-                      @endforeach
+                      </div>
                     </div>
+                    @endforeach
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           <div class="list-group">
             <table class="table table-bordered">
               <h1>Group B</h1>
@@ -177,16 +150,16 @@
               <?php $i = 0 ?>
               @foreach($tournament->groups[1]->users as $user)
               <?php $i++ ?>
-                <tbody>
-                  <tr>
-                    <th scope="row">{{$i}}</th>
-                    <td>{{$user->name}}</td>  
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>                          
-                  </tr>
-                </tbody>
+              <tbody>
+                <tr>
+                  <th scope="row">{{$i}}</th>
+                  <td>{{$user->name}}</td>  
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>
+                  <td>0</td>                          
+                </tr>
+              </tbody>
               @endforeach
             </table>
             <p class="center">
@@ -198,7 +171,7 @@
                 <div class="latest_qualifier_games_content local">
                   <div class="day_wrapper">
                     <div class="group collapse" id="collapseGroupB">
-                    @foreach($tournament->groups[1]->rounds as $round)
+                      @foreach($tournament->groups[1]->rounds as $round)
                       <div class="round">
                         <div class="pannel-group" id="accordionB" role="tablist" aria-multiselectable="true">
                           <div class="pannel pannel-default center">
@@ -212,72 +185,43 @@
                             <div class="panel-body">
                               <div class="games_list">
                                 @foreach($round->matches as $match)
-                                    <div class="game_item">
-                                      <div class="participants">
-                                      <table  class="country left .col-md-1">
-                                        <tbody>
-                                          <tr>
-                                            <td class="country_col">
-                                              <div class="name">
-                                                <span>{{$users->where('id','=',$match->first_player_id)->get()->pluck('name')}}</span>
-                                              </div>
-                                            </td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                      <table class="table table-borderless points">
-                                        <tbody>
-                                          <tr>
-                                            <th class="center">Set1</th>
-                                            <th class="center">Set2</th>
-                                            <th class="center">Set3</th>
-                                            <th class="center">Set4</th>
-                                            <th class="center">Set5</th>
-                                          </tr>
-                                          <tr>
-                                            <td>
-                                              <div class="col-md-2">
-                                                <div class="form-group row center">
-                                                  <input type="number"  id="exampleInputName2" max="7" min="0">
-                                                  <input type="number"  id="exampleInputName2" max="7" min="0">
-                                                </div>
-                                              </div>
-                                            </td>
-                                            <td>
-                                              <div class="col-md-2">
-                                                <div class="form-group row center">
-                                                  <input type="number"   id="exampleInputName2" max="7" min="0">
-                                                  <input type="number"  id="exampleInputName2" max="7" min="0">
-                                                </div>
-                                              </div>
-                                            </td>
-                                            <td>
-                                              <div class="col-md-2">
-                                                <div class="form-group row center">
-                                                  <input type="number"   id="exampleInputName2" max="7" min="0">
-                                                  <input type="number"  id="exampleInputName2" max="7" min="0">
-                                                </div>
-                                              </div>
-                                            </td>
-                                          <td>
-                                            <div class="col-md-2">
-                                              <div class="form-group row center">
-                                                <input type="number"   id="exampleInputName2" max="7" min="0">
-                                                <input type="number"  id="exampleInputName2" max="7" min="0">
-                                              </div>
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <div class="col-md-2">
-                                              <div class="form-group row center">
-                                                <input type="number"   id="exampleInputName2" max="7" min="0">
-                                                <input type="number"  id="exampleInputName2" max="7" min="0">
-                                              </div>
+                                <div class="game_item" id="{{ $match->id }}">
+                                  <div class="participants">
+                                  <form action="/scores" method="POST">
+                                    {{csrf_field()}}
+                                    <table  class="country left .col-md-1">
+                                      <tbody>
+                                        <tr>
+                                          <td class="country_col">
+                                            <div class="name">
+                                              <span>{{$users->where('id','=',$match->first_player_id)->get()->pluck('name')}}</span>
                                             </div>
                                           </td>
                                         </tr>
                                       </tbody>
-                                      </table>
+                                    </table>
+                                    <table class="table table-borderless points">
+                                      <tbody>
+                                        <tr>
+                                          @foreach($match->sets as $set)
+                                            <th class="center">Set{{ $set->set_number }}</th>
+                                          @endforeach
+                                        </tr>
+                                        <tr>
+                                          @foreach($match->sets as $set)
+                                           <td>
+                                             <div class="col-md-2">
+                                               <div class="form-group row center">
+                                                @for($i=1; $i<=2; $i++)
+                                                  <input type="number"  id="set{{ $set->id }}player{{ $i }}" name="set{{ $set->id }}player{{ $i }}" max="7" min="0">
+                                                @endfor
+                                               </div>
+                                             </div>
+                                           </td>
+                                           @endforeach
+                                        </tr>
+                                      </tbody>
+                                    </table>
                                     <table class="country right .col-md-1">
                                       <tbody>
                                         <tr>
@@ -289,17 +233,19 @@
                                         </tr>
                                       </tbody>
                                     </table>
-                                    </div>
-                                    <div class="additional_content">
-                                      <button type="submit" class="btn btn-sm">Save</button>
-                                    </div>
                                   </div>
+                                  <div class="additional_content">
+                                    <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm">Save</button>
+                                  </div>
+                                </div>
+                                </form>
                                 @endforeach
                               </div>
                             </div>
                           </div>
                         </div>
-                    @endforeach
+                        @endforeach
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -310,6 +256,5 @@
       </div>
     </div>
   </div>
-</div>
 
-@endsection
+  @endsection

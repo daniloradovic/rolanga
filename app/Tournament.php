@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Group;
 use App\User;
+use App\Match;
 
 class Tournament extends Model
 {	
@@ -26,5 +27,12 @@ class Tournament extends Model
 
 		return $this->belongsToMany(User::class, 'tournaments_users');
 	
+	}
+
+	public function matches()
+	{
+
+		return $this->hasMany(Match::class);
+
 	}
 }
