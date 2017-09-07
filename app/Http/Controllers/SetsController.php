@@ -33,6 +33,7 @@ class SetsController extends Controller
 
 	public function update(Request $request)
 	{
+
 		$match = Match::find($request->matchId);
 		
 		$matchId = $request->matchId;
@@ -43,20 +44,104 @@ class SetsController extends Controller
 
 		$tournament = $group->tournament;
 
+		$users = $group->users;
+
+		$playerOneCount = 0;
+		$playerTwoCount = 0;
+		
+		// store games per set results
 		for ($i=1; $i<=count($sets); $i++)
 		{	
 			$id = $sets[$i-1]->id;
 			$setIndexPlayer1 = (string)('set'."".$id."".'player1');
 			$setIndexPlayer2 = (string)('set'."".$id."".'player2');
 
-			// dd($request->input($setIndexPlayer1), $request->input($setIndexPlayer2));
-
+			
 			$sets[$i-1]->first_player_games = $request->input($setIndexPlayer1);
 			$sets[$i-1]->second_player_games = $request->input($setIndexPlayer2);
-			
+
+			if (($sets[$i-1]->first_player_games == 0) && ($sets[$i-1]->second_player_games == 0))
+			{
+				$sets[$i-1]->set_winner = null;
+				$sets[$i-1]->setPlayed = false;
+			}
+			elseif ($sets[$i-1]->first_player_games > $sets[$i-1]->second_player_games)
+			{
+				$sets[$i-1]->set_winner = $match->first_player_id;
+				$sets[$i-1]->setPlayed = true;
+			}
+
+			elseif ($sets[$i-1]->first_player_games < $sets[$i-1]->second_player_games)
+			{
+				$sets[$i-1]->set_winner = $match->second_player_id;
+				$sets[$i-1]->setPlayed = true;
+			}
+			elseif($sets[$i-1]->first_player_games == $sets[$i-1]->second_player_games)
+			{
+				$sets[$i-1]->set_winner = null;
+				$sets[$i-1]->setPlayed = true;
+			}
+
 			$sets[$i-1]->save();
 		}
 
+		// Count sets won by each player
+		foreach ($sets as $set){
+			
+			if (($set->set_winner == (int)($set->match->first_player_id)) && ($set->setPlayed = true))
+				$playerOneCount ++;
+
+			if (($set->set_winner == (int)($set->match->second_player_id)) && ($set->setPlayed = true))
+				$playerTwoCount ++;
+		
+		}
+
+		// Match final result - winner, losser or a draw
+		if ($playerOneCount > $playerTwoCount){
+			$match->match_winner = $match->first_player_id;
+			$match->match_losser = $match->second_player_id;
+			$match->draw = false;
+		}
+
+		elseif ($playerOneCount < $playerTwoCount){
+			$match->match_winner = $match->second_player_id;
+			$match->match_losser = $match->first_player_id;
+			$match->draw = false;
+		}
+
+		elseif(($playerOneCount == $playerTwoCount) && ($playerOneCount != 0) && ($playerTwoCount != 0)){
+			$match->match_winner = null;
+			$match->match_losser = null;
+			$match->draw = true;
+		}
+
+		else{
+			$match->match_winner = null;
+			$match->match_losser = null;
+			$match->draw = false;
+		}
+
+		$match->save();
+		
+		foreach ($users as $user){
+		
+			$winsNo = count($group->matches()->where('match_winner', '=', $user->id)->get());
+			$user->wins = $winsNo;
+			$lossesNo = count($group->matches()->where('match_losser','=',$user->id)->get());
+			$user->losses = $lossesNo;
+			$drawsNo = 0;
+			foreach ($group->matches as $match){
+				if (($user->id == $match->first_player_id || $user->id == $match->second_player_id) && ($match->draw == true)){
+					$drawsNo ++;
+				}
+			}
+			$user->draws = $drawsNo;
+			$user->points = $winsNo*3 + $drawsNo;
+
+			$user->save();
+
+		}
+		
 		return redirect()->route('showGroups', ['tournament' => $tournament->id]);
 
 	}

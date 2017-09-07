@@ -17,11 +17,13 @@
               <thead class="thead-inverse">
                 <tr>
                   <th class="col-md-1">#</th>
-                  <th class="col-md-2">Player Name</th>
-                  <th class="col-md-2">Win</th>
-                  <th class="col-md-2">Loss</th>
-                  <th class="col-md-2">Set ratio</th>
-                  <th class="col-md-2">Points</th>
+                  <th class="col-md-1">Player</th>
+                  <th class="col-md-1">P</th>
+                  <th class="col-md-1">W</th>
+                  <th class="col-md-1">D</th>
+                  <th class="col-md-1">L</th>
+                  <th class="col-md-1">+/-</th>
+                  <th class="col-md-1">Points</th>
                 </tr>
               </thead>
               <?php $i = 0 ?>
@@ -33,9 +35,11 @@
                   <th scope="row">{{ $i }}</th>
                   <td>{{ $user->name }}</td>
                   <td>0</td>
+                  <td>{{ $user->wins }}</td>
+                  <td>{{ $user->draws }}</td>
+                  <td>{{ $user->losses }}</td> 
                   <td>0</td>
-                  <td>0</td>
-                  <td>0</td>                            
+                  <td>{{ $user->points }}</td>                           
                 </tr>
               </tbody>
               @endforeach
@@ -73,7 +77,7 @@
                                         <tr>
                                           <td class="country_col">
                                             <div class="name">
-                                              <span>{{$users->where('id','=',$match->first_player_id)->get()->pluck('name')}}</span>
+                                              <span>{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</span>
                                             </div>
                                           </td>
                                         </tr>
@@ -109,7 +113,7 @@
                                       <tr>
                                         <td class="country_col">
                                           <div class="name">
-                                            <span>{{$users->where('id','=',$match->second_player_id)->get()->pluck('name')}}</span>
+                                            <span>{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</span>
                                           </div>
                                         </td>
                                       </tr>
@@ -139,11 +143,13 @@
               <thead class="thead-inverse">
                 <tr>
                   <th class="col-md-1">#</th>
-                  <th class="col-md-2">Player Name</th>
-                  <th class="col-md-2">Win</th>
-                  <th class="col-md-2">Loss</th>
-                  <th class="col-md-2">Set ratio</th>
-                  <th class="col-md-2">Points</th>
+                  <th class="col-md-1">Player</th>
+                  <th class="col-md-1">P</th>
+                  <th class="col-md-1">W</th>
+                  <th class="col-md-1">L</th>
+                  <th class="col-md-1">%</th>
+                  <th class="col-md-1">+/-</th>
+                  <th class="col-md-1">Points</th>
                 </tr>
               </thead>
               
@@ -157,7 +163,9 @@
                   <td>0</td>
                   <td>0</td>
                   <td>0</td>
-                  <td>0</td>                          
+                  <td>0</td> 
+                  <td>0</td>
+                  <td>{{ $user->points }}</td>                           
                 </tr>
               </tbody>
               @endforeach

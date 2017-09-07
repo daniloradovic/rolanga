@@ -34,7 +34,11 @@
 							<div class="col-md-2">
 								<div class="form-group row center">
 									@for($i=1; $i<=2; $i++)
-									<input type="number"  id="set{{ $set->id }}player{{ $i }}" name="set{{ $set->id }}player{{ $i }}" max="7" min="0">
+										@if ($i == 1)
+										<input type="number"  id="set{{ $set->id }}player{{ $i }}" name="set{{ $set->id }}player{{ $i }}" max="7" min="0" value="{{ old('name', $set->first_player_games)}}">
+										@else
+										<input type="number"  id="set{{ $set->id }}player{{ $i }}" name="set{{ $set->id }}player{{ $i }}" max="7" min="0" value="{{ old('name', $set->second_player_games)}}">
+										@endif
 									@endfor
 								</div>
 							</div>

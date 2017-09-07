@@ -18,7 +18,7 @@ class Set extends Model
 	public $timestamps = false;
 	
 	protected $fillable = [
-	'set_number', 'first_player_games', 'second_player_games', 'match_id'
+	'set_number', 'first_player_games', 'second_player_games', 'match_id', 'set_winner', 'setPlayed'
 	];    
 	
 	public function match(){
