@@ -48,6 +48,7 @@ class SetsController extends Controller
 
 		$playerOneCount = 0;
 		$playerTwoCount = 0;
+		$draw = 0;
 		
 		// store games per set results
 		for ($i=1; $i<=count($sets); $i++)
@@ -56,31 +57,72 @@ class SetsController extends Controller
 			$setIndexPlayer1 = (string)('set'."".$id."".'player1');
 			$setIndexPlayer2 = (string)('set'."".$id."".'player2');
 
-			
 			$sets[$i-1]->first_player_games = $request->input($setIndexPlayer1);
 			$sets[$i-1]->second_player_games = $request->input($setIndexPlayer2);
+
+			$setAbs = abs($sets[$i-1]->first_player_games - $sets[$i-1]->second_player_games);
 
 			if (($sets[$i-1]->first_player_games == 0) && ($sets[$i-1]->second_player_games == 0))
 			{
 				$sets[$i-1]->set_winner = null;
 				$sets[$i-1]->setPlayed = false;
+				$sets[$i-1]->set_draw = false;
+
 			}
-			elseif ($sets[$i-1]->first_player_games > $sets[$i-1]->second_player_games)
+
+			elseif (($sets[$i-1]->first_player_games > $sets[$i-1]->second_player_games) && $setAbs > 1)
 			{
 				$sets[$i-1]->set_winner = $match->first_player_id;
 				$sets[$i-1]->setPlayed = true;
+				$sets[$i-1]->set_draw = false;
+
 			}
 
-			elseif ($sets[$i-1]->first_player_games < $sets[$i-1]->second_player_games)
+			elseif ($sets[$i-1]->first_player_games < $sets[$i-1]->second_player_games && $setAbs > 1)
 			{
 				$sets[$i-1]->set_winner = $match->second_player_id;
 				$sets[$i-1]->setPlayed = true;
+				$sets[$i-1]->set_draw = false;
+
 			}
-			elseif($sets[$i-1]->first_player_games == $sets[$i-1]->second_player_games)
+
+			// elseif($sets[$i-1]->first_player_games == $sets[$i-1]->second_player_games)
+			// {
+			// 	$sets[$i-1]->set_winner = null;
+			// 	$sets[$i-1]->set_draw = true;
+			// 	$sets[$i-1]->setPlayed = true;
+			// }
+
+			elseif($setAbs <= 1 && ($sets[$i-1]->first_player_games != 0 && $sets[$i-1]->first_player_games != 7 && $sets[$i-1]->second_player_games != 7 ))
 			{
+
 				$sets[$i-1]->set_winner = null;
+				$sets[$i-1]->set_draw = true;
 				$sets[$i-1]->setPlayed = true;
 			}
+
+			elseif($setAbs <= 1 && ($sets[$i-1]->second_player_games != 0 && $sets[$i-1]->second_player_games != 7 && $sets[$i-1]->first_player_games != 7))
+			{
+
+				$sets[$i-1]->set_winner = null;
+				$sets[$i-1]->set_draw = true;
+				$sets[$i-1]->setPlayed = true;
+			}
+
+			elseif ($setAbs == 1 && $sets[$i-1]->first_player_games == 7)
+			{
+				$sets[$i-1]->set_winner = $match->first_player_id;
+				$sets[$i-1]->setPlayed = true;
+				$sets[$i-1]->set_draw = false;
+			}
+
+			elseif ($setAbs == 1 && $sets[$i-1]->second_player_games == 7)
+			{
+				$sets[$i-1]->set_winner = $match->second_player_id;
+				$sets[$i-1]->setPlayed = true;
+				$sets[$i-1]->set_draw = false;
+			}
+
 
 			$sets[$i-1]->save();
 		}
@@ -93,36 +135,50 @@ class SetsController extends Controller
 
 			if (($set->set_winner == (int)($set->match->second_player_id)) && ($set->setPlayed = true))
 				$playerTwoCount ++;
-		
+
+			if($set->set_draw == true && $set->setPlayed == true)
+				$draw ++;
+
 		}
 
 		// Match final result - winner, losser or a draw
-		if ($playerOneCount > $playerTwoCount){
+		if ($playerOneCount > $playerTwoCount)
+		{
 			$match->match_winner = $match->first_player_id;
 			$match->match_losser = $match->second_player_id;
 			$match->draw = false;
 		}
 
-		elseif ($playerOneCount < $playerTwoCount){
+		elseif ($playerOneCount < $playerTwoCount)
+		{
 			$match->match_winner = $match->second_player_id;
 			$match->match_losser = $match->first_player_id;
 			$match->draw = false;
 		}
 
-		elseif(($playerOneCount == $playerTwoCount) && ($playerOneCount != 0) && ($playerTwoCount != 0)){
+		elseif(($playerOneCount == $playerTwoCount) && ($playerOneCount != 0) && ($playerTwoCount != 0))
+		{
 			$match->match_winner = null;
 			$match->match_losser = null;
 			$match->draw = true;
 		}
 
-		else{
+		elseif(($draw != 0) && ($playerOneCount == 0) && ($playerTwoCount == 0))
+		{
+			$match->match_winner = null;
+			$match->match_losser = null;
+			$match->draw = true;
+		}
+
+		elseif($draw == 0)
+		{
 			$match->match_winner = null;
 			$match->match_losser = null;
 			$match->draw = false;
 		}
 
 		$match->save();
-		
+
 		foreach ($users as $user){
 		
 			$winsNo = count($group->matches()->where('match_winner', '=', $user->id)->get());
