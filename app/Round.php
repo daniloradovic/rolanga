@@ -12,7 +12,7 @@ class Round extends Model
 	public $timestamps = false;
 
 	protected $fillable = [
-	'group_id', 'round_number'
+	'group_id', 'round_number','start_date', 'end_date'
 	];
 
 	public function matches()

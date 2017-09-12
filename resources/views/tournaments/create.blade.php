@@ -29,7 +29,7 @@
 
 				<div class="form-group">
 					<label for="start_date" class="col-form-label">Start Date</label>
-					<input name="start_date" class=" form-control mb-2 mr-sm-2 mb-sm-0" type="date"  value="{{ empty($queryParams['start_date']) ? '' : $queryParams['start_date'] }}"   id="from_date">
+					<input name="start_date" class=" form-control mb-2 mr-sm-2 mb-sm-0" type="date" id="from_date">
 				</div>
 					
 

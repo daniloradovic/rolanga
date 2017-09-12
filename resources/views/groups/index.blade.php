@@ -54,6 +54,7 @@
                   <div class="day_wrapper">
                     <div class="group collapse" id="collapseGroupA" >           
                       @foreach($tournament->groups[0]->rounds as $round)
+                      <h2>Round starts at {{ $round->start_date }} </h2>
                       <div class="round">
                         <div class="pannel-group" id="accordionA" role="tablist" aria-multiselectable="true">
                           <div class="pannel pannel-default center">

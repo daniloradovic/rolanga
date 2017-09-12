@@ -86,13 +86,6 @@ class SetsController extends Controller
 
 			}
 
-			// elseif($sets[$i-1]->first_player_games == $sets[$i-1]->second_player_games)
-			// {
-			// 	$sets[$i-1]->set_winner = null;
-			// 	$sets[$i-1]->set_draw = true;
-			// 	$sets[$i-1]->setPlayed = true;
-			// }
-
 			elseif($setAbs <= 1 && ($sets[$i-1]->first_player_games != 0 && $sets[$i-1]->first_player_games != 7 && $sets[$i-1]->second_player_games != 7 ))
 			{
 

@@ -12,7 +12,7 @@ class Tournament extends Model
 
 
 	protected $fillable = [
-	'tournament_name', 'groups_number', 'from_date', 'user_list'
+	'tournament_name', 'groups_number', 'start_date', 'user_list'
 	];
 
 	public function groups()

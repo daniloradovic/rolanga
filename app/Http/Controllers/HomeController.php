@@ -22,5 +22,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+    
     
 }   

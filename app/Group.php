@@ -48,11 +48,14 @@ class Group extends Model
 
     public function generateRounds()
     {
+       
+        $start = $this->tournament->start_date;
 
         for ($i=0; $i<count($this->users)-1; $i++){
 
             $rounds[$i] = $this->rounds()->create([
-                'round_number' => $i+1
+                'round_number' => $i+1,
+                'start_date' => date('Y-m-d', strtotime("+$i weeks $start"))
                 ]);
         }
         
