@@ -3,6 +3,8 @@
 @section('content')
 
 <div class="container">
+<div class="panel-body">
+<div class="games_list">
 	<div class="game_item" id="match{{ $match->id }}">                                        
 		<div class="participants">
 			<form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}" method="POST">
@@ -15,7 +17,7 @@
 						<tr>
 							<td class="country_col">
 								<div class="name">
-									<span>{{$users->where('id','=',$match->first_player_id)->pluck('name')}}</span>
+									<span>{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</span>
 								</div>
 							</td>
 						</tr>
@@ -52,7 +54,7 @@
 	       		<tr>
 	       			<td class="country_col">
 	       				<div class="name">
-	       					<span>{{$users->where('id','=',$match->second_player_id)->pluck('name')}}</span>
+	       					<span>{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</span>
 	       				</div>
 	       			</td>
 	       		</tr>
@@ -64,6 +66,8 @@
 	   </div>
 	</div>
 	</form>
+</div>
+</div>	
 </div>
 
 @endsection

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Role;
 use App\Group;
 use App\Match;
+use App\Tournament;
 
 class User extends Authenticatable
 {
@@ -35,7 +36,7 @@ class User extends Authenticatable
     public function tournaments()
     {
 
-        $this->belongsToMany(Tournament::class);
+        return $this->belongsToMany(Tournament::class, 'tournaments_users');
     
     }
     
@@ -57,7 +58,7 @@ class User extends Authenticatable
     public function roles()
     {
 
-        return $this->belongsToMany('App\Role')->withTimestamps();
+        return $this->belongsToMany(Role::class)->withTimestamps();
     
     }
 

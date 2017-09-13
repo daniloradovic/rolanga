@@ -19,10 +19,10 @@ use Auth;
 class TournamentsController extends Controller
 {
 
- 	public function __construct()
-    {
-        $this->middleware('auth');
-    }
+ 	// public function __construct()
+  //   {
+  //       $this->middleware('auth');
+  //   }
 	
 	public function index()
 	{
@@ -40,8 +40,14 @@ class TournamentsController extends Controller
 	{
 
 		$users = User::all();
+		
+		if (Auth::user()->roles()->where('name','=','admin')){
+			return view('tournaments.create', compact('users'));
+		}
+		else{
 
-		return view('tournaments.create', compact('users'));
+			return redirect()->back();
+		}
 
 	}
 

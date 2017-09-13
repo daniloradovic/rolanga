@@ -23,7 +23,7 @@ Auth::routes();
 
 Route::get('/', 'TournamentsController@index');
 
-Route::get('/create', 'TournamentsController@create');
+Route::get('/create', 'TournamentsController@create')->middleware('tournamentAdmin');
 
 Route::post('/tournaments', 'TournamentsController@store');
 
