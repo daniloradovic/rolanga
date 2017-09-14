@@ -12,7 +12,7 @@ class Round extends Model
 	public $timestamps = false;
 
 	protected $fillable = [
-	'group_id', 'round_number','start_date', 'end_date'
+	'group_id', 'round_number','start_date', 'end_date', 'player_off'
 	];
 
 	public function matches()
@@ -37,24 +37,40 @@ class Round extends Model
         
         $usersNo = count($group->users);
 
+        $playerFreeNo = round($usersNo/2, 0, PHP_ROUND_HALF_DOWN);
+        
         $roundNumber = $this->round_number;
 
-    	for($m=0; $m<$usersNo/2; $m++)
-    	{   
-            $matches[$m] = $this->matches()->create([
-                'first_player_id' => $groupUsers[$m]['id'],
-                'second_player_id' => $groupUsers[$usersNo-1-$m]['id'],
-                'group_id' => $group->id
-                ]);
-    	}
+        if (is_int($usersNo/2))
+        {
+        	for($m=0; $m<$usersNo/2; $m++)
+        	{   
+                $matches[$m] = $this->matches()->create([
+                    'first_player_id' => $groupUsers[$m]['id'],
+                    'second_player_id' => $groupUsers[$usersNo-1-$m]['id'],
+                    'group_id' => $group->id
+                    ]);
+        	}
+        }
+
+        else
+        {
+            for($m=0; $m<($usersNo-1)/2; $m++)
+            {   
+                $matches[$m] = $this->matches()->create([
+                    'first_player_id' => $groupUsers[$m]['id'],
+                    'second_player_id' => $groupUsers[$usersNo-1-$m]['id'],
+                    'group_id' => $group->id
+                    ]);
+
+            } 
+        }
 
         foreach($matches as $match){
-            $match->generateSets();
-        }
         
-
-        // dd($first = array_splice($groupUsers, 0, 1)[0], array_unshift($groupUsers, array_pop($groupUsers)), array_unshift($groupUsers, $first), $groupUsers);
-    
+            $match->generateSets();
+        
+        }
     }
 
 }

@@ -19,14 +19,17 @@ class SetsController extends Controller
 {
 
 	public function __construct() {
+
       $this->middleware('auth');
+    
     }
-
-
+    
 	public function edit(Request $request, Tournament $tournament, Match $match)
 	{
 		$group = $match->group;
+		
 		$users = $group->users;
+		
 		$tournament = $group->tournament;
 		// dd($tournament, $match);
 
@@ -51,8 +54,11 @@ class SetsController extends Controller
 			$users = $group->users;
 
 			$playerOneCount = 0;
+			
 			$playerTwoCount = 0;
+			
 			$draw = 0;
+
 		if ($match->first_player_id == Auth::id() || $match->second_player_id == Auth::id() || Auth::user()->roles()->where('name', '=', 'admin')->exists()){
 			// store games per set results
 			for ($i=1; $i<=count($sets); $i++)

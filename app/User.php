@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'group_id', 'points', 'wins', 'losses', 'draws'
+    'name', 'email', 'password', 'group_id', 'points', 'wins', 'losses', 'draws'
     ];
 
     /**
@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+    'password', 'remember_token',
     ];
 
 
@@ -37,21 +37,21 @@ class User extends Authenticatable
     {
 
         return $this->belongsToMany(Tournament::class, 'tournaments_users');
-    
+
     }
     
     public function groups()
     {
 
         return $this->belongsToMany(Group::class, 'groups_users');
-    
+
     }
 
     public function matches()
     {
 
         return $this->belongsToMany(Match::class);
-    
+
     }
 
     // Displays all the roles of this user
@@ -59,10 +59,15 @@ class User extends Authenticatable
     {
 
         return $this->belongsToMany(Role::class)->withTimestamps();
+
+    }
+    
+    public function assignRole(Role $role)
+    {
+
+        return $this->roles()->save($role);
     
     }
-
-    
 
     public function hasRole($role)
     {
@@ -79,7 +84,7 @@ class User extends Authenticatable
     // method that checks if there has been any role
     public function hasAnyRole($roles)
     {
-        
+
         if (is_array($roles)){
             foreach ($roles as $role){
                 if($this->hasRole($role)){
@@ -88,7 +93,8 @@ class User extends Authenticatable
             }
         }
         
-        else{
+        else
+        {
             if($this->hasRole($roles)){
 
             }

@@ -51,7 +51,7 @@ class Group extends Model
        
         $start = $this->tournament->start_date;
 
-        for ($i=0; $i<count($this->users)-1; $i++){
+        for ($i=0; $i<(count($this->users))*2-2; $i++){
 
             $rounds[$i] = $this->rounds()->create([
                 'round_number' => $i+1,
@@ -61,15 +61,25 @@ class Group extends Model
         
         $groupUsers = ($this->users)->toArray();
         
+        $usersNo = count($groupUsers);
+
+        $playerFreeNo = round($usersNo/2, 0, PHP_ROUND_HALF_DOWN);        
+        
         foreach ($rounds as $round){
 
             $round->generateMatches($groupUsers);
 
+            $round->player_off = $groupUsers[$playerFreeNo+1]['id'];
+            
             $first = array_splice($groupUsers,0,1)[0];
+           
             array_unshift($groupUsers, array_pop($groupUsers));
+           
             array_unshift($groupUsers, $first);
             
             $groupUsers;
+
+            $round->save();
 
         }
     }
