@@ -37,7 +37,7 @@
               <?php $i++ ?>
               
               <tbody>
-                <tr class="{{ (Auth::user()->id == $user->id) ? 'active' : ''  }}">
+                <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }}">
                   <th scope="row">{{ $i }}</th>
                   <td>{{ $user->name }}</td>
                   <td>0</td>
@@ -121,7 +121,7 @@
                                   </table>
                                 </div>
                                 @if (Auth::check())
-                                  @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists()))
+                                  @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists())
                                   <div class="additional_content">
                                     <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm" id="match{{ $match->id }}">Edit result</button>
                                   </div>
@@ -161,7 +161,7 @@
               @foreach($tournament->groups[1]->users as $user)
               <?php $i++ ?>
               <tbody>
-                <tr class="{{ (Auth::user()->id == $user->id) ? 'active' : ''  }}">
+                <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }}">
                   <th scope="row">{{ $i }}</th>
                   <td>{{ $user->name }}</td>
                   <td>0</td>
@@ -244,7 +244,7 @@
                                   </table>
                                 </div>
                                 @if (Auth::check())
-                                  @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists()))
+                                  @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists())
                                   <div class="additional_content">
                                     <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm" id="match{{ $match->id }}">Edit result</button>
                                   </div>
