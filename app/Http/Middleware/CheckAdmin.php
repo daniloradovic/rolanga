@@ -18,9 +18,9 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {   
-        if (! Auth::user()->roles()->where('name','=','admin')->exists()) {
+        if (!Auth::check() || !Auth::user()->roles()->where('name','=','admin')->exists()) {
             
-            return redirect('/')->withErrors(['Ne moze CREATE kad nisi JA', 'The Message']);
+            return redirect('/')->withErrors(['Ne moze kad nisi JA', 'The Message']);
 
         }
 

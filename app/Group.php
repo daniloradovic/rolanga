@@ -68,8 +68,11 @@ class Group extends Model
         foreach ($rounds as $round){
 
             $round->generateMatches($groupUsers);
-
-            $round->player_off = $groupUsers[$playerFreeNo+1]['id'];
+            
+            if(! is_int($usersNo/2)){
+                $round->player_off = $groupUsers[$playerFreeNo+1]['id'];
+                $round->save();
+            }
             
             $first = array_splice($groupUsers,0,1)[0];
            
@@ -79,7 +82,7 @@ class Group extends Model
             
             $groupUsers;
 
-            $round->save();
+            
 
         }
     }

@@ -25,9 +25,9 @@ Route::get('/', 'TournamentsController@index');
 
 Route::get('/create', 'TournamentsController@create')->middleware('tournamentAdmin');
 
-Route::post('/tournaments', 'TournamentsController@store');
+Route::post('/tournaments', 'TournamentsController@store')->middleware('tournamentAdmin');
 
-Route::get('/tournaments/{tournament}', 'TournamentsController@show')->name('showTournament');
+Route::get('/tournaments/{tournament}', 'TournamentsController@show')->name('showTournament')->middleware('tournamentAdmin');
 
 Route::post('/generate', 'TournamentsController@generateGroups');
 
