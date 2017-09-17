@@ -21,7 +21,7 @@ Auth::routes();
 
 // Route::get('/groups', 'GroupController@index');
 
-Route::get('/', 'TournamentsController@index');
+Route::get('/', 'TournamentsController@index')->name('index');
 
 Route::get('/create', 'TournamentsController@create')->middleware('tournamentAdmin');
 
@@ -32,6 +32,8 @@ Route::get('/tournaments/{tournament}', 'TournamentsController@show')->name('sho
 Route::post('/generate', 'TournamentsController@generateGroups');
 
 Route::get('/tournaments/{tournament}/groups', 'TournamentsController@showGroups')->name('showGroups');
+
+Route::delete('/tournaments/{tournament}/groups', 'TournamentsController@destroy');
 
 Route::get('/tournaments/{tournament}/matches/{match}/edit', 'SetsController@edit');
 

@@ -104,6 +104,12 @@ class TournamentsController extends Controller
 
 	}
 
+	public function destroy(Tournament $tournament)
+	{
+		$tournament->delete();
+		return redirect()->route('index');
+	}
+
 	public function generateGroups(Request $request, Tournament $tournament)
 	{	
 		
