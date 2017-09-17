@@ -41,11 +41,11 @@
                   <th scope="row">{{ $i }}</th>
                   <td>{{ $user->name }}</td>
                   <td>0</td>
-                  <td>{{ $user->wins }}</td>
-                  <td>{{ $user->draws }}</td>
-                  <td>{{ $user->losses }}</td> 
+                  <td>{{ $user->pivot->wins }}</td>
+                  <td>{{ $user->pivot->draws }}</td>
+                  <td>{{ $user->pivot->losses }}</td> 
                   <td>0</td>
-                  <td>{{ $user->points }}</td>                           
+                  <td>{{ $user->pivot->points }}</td>                           
                 </tr>
               </tbody>
               @endforeach
@@ -83,7 +83,7 @@
                                         <tbody>
                                           <tr>
                                             <td class="country_col">
-                                              <div class="name">
+                                              <div class="name ">
                                                 <span>{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</span>
                                               </div>
                                             </td>
@@ -169,11 +169,11 @@
                     <th scope="row">{{ $i }}</th>
                     <td>{{ $user->name }}</td>
                     <td>0</td>
-                    <td>{{ $user->wins }}</td>
-                    <td>{{ $user->draws }}</td>
-                    <td>{{ $user->losses }}</td> 
+                    <td>{{ $user->pivot->wins }}</td>
+                    <td>{{ $user->pivot->draws }}</td>
+                    <td>{{ $user->pivot->losses }}</td> 
                     <td>0</td>
-                    <td>{{ $user->points }}</td>                         
+                    <td>{{ $user->pivot->points }}</td>                         
                   </tr>
                 </tbody>
                 @endforeach

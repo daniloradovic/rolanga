@@ -183,22 +183,28 @@ class SetsController extends Controller
 			$match->save();
 
 			foreach ($users as $user){
-			
+				
 				$winsNo = count($group->matches()->where('match_winner', '=', $user->id)->get());
-				$user->wins = $winsNo;
+				// $user->wins = $winsNo;
 				$lossesNo = count($group->matches()->where('match_losser','=',$user->id)->get());
-				$user->losses = $lossesNo;
+				// $user->losses = $lossesNo;
 				$drawsNo = 0;
+
 				foreach ($group->matches as $match){
 					if (($user->id == $match->first_player_id || $user->id == $match->second_player_id) && ($match->draw == true)){
 						$drawsNo ++;
 					}
 				}
+
 				$user->draws = $drawsNo;
+
 				$user->points = $winsNo*3 + $drawsNo;
+				
+				$userId = $user->id;
 
-				$user->save();
-
+				$group->users()->updateExistingPivot($userId, ['wins'=> $winsNo, 'losses' => $lossesNo, 'draws' => $drawsNo, 'points' => ($winsNo*3 + $drawsNo)]);
+				
+				// $user->save();
 			}
 			
 			return redirect()->route('showGroups', ['tournament' => $tournament->id]);
