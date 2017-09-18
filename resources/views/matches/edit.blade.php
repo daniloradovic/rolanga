@@ -62,7 +62,7 @@
 	       </table>
 	   </div>
 	   <div class="additional_content">
-	   	<button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm" id="match{{ $match->id }}">Edit result</button>
+	   	<button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm" id="match{{ $match->id }}">Save</button>
 	   </div>
 	</div>
 	</form>

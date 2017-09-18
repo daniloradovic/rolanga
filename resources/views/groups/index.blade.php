@@ -18,7 +18,7 @@
           @endif
           <!-- List group -->
           <div class="list-group">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-responsive">
               <h1>Group A</h1>
               <thead class="thead-inverse">
                 <tr>
@@ -45,7 +45,7 @@
                   <td>{{ $user->pivot->wins }}</td>
                   <td>{{ $user->pivot->draws }}</td>
                   <td>{{ $user->pivot->losses }}</td> 
-                  <td>0</td>
+                  <td>{{ $user->pivot->games_won }} : {{ $user->pivot->games_lost }}</td>
                   <td>{{ $user->pivot->points }}</td>                           
                 </tr>
               </tbody>
@@ -156,7 +156,7 @@
               </div>
             </div>
             <div class="list-group">
-              <table class="table table-bordered">
+              <table class="table table-bordered table-responsive">
                 <h1>Group B</h1>
                 <thead class="thead-inverse">
                  <tr>
@@ -182,7 +182,7 @@
                   <td>{{ $user->pivot->wins }}</td>
                   <td>{{ $user->pivot->draws }}</td>
                   <td>{{ $user->pivot->losses }}</td> 
-                  <td>0</td>
+                  <td>{{ $user->pivot->games_won }} : {{ $user->pivot->games_lost }}</td>
                   <td>{{ $user->pivot->points }}</td>                         
                 </tr>
               </tbody>
@@ -276,6 +276,14 @@
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div>
+                        <p>Matches played {{ $round->matches_played }}/{{ count($round->matches) }}</p>
+                        @if ($round->matches_played == count($round->matches))
+                        <div class="alert alert-success">
+                          <p>ROUND COMPLETED!</p>
+                        </div>
+                        @endif
                       </div>
                       @endforeach
                     </div>

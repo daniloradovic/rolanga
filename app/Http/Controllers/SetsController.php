@@ -69,7 +69,7 @@ class SetsController extends Controller
 
 				$sets[$i-1]->first_player_games = $request->input($setIndexPlayer1);
 				$sets[$i-1]->second_player_games = $request->input($setIndexPlayer2);
-
+	
 				$setAbs = abs($sets[$i-1]->first_player_games - $sets[$i-1]->second_player_games);
 
 				if (($sets[$i-1]->first_player_games == 0) && ($sets[$i-1]->second_player_games == 0))
@@ -193,31 +193,44 @@ class SetsController extends Controller
 				$round->save();
 			}
 
+
+
 			foreach ($users as $user){
 				
 				$winsNo = count($group->matches()->where('match_winner', '=', $user->id)->get());
-				// $user->wins = $winsNo;
+				
 				$lossesNo = count($group->matches()->where('match_losser','=',$user->id)->get());
-				// $user->losses = $lossesNo;
-				$drawsNo = 0;
 
+				$drawsNo = 0;
+				
+				$gamesWon = 0;
+
+				$gamesLost = 0;
+				
 				foreach ($group->matches as $match){
 					if (($user->id == $match->first_player_id || $user->id == $match->second_player_id) && ($match->draw == true)){
 						$drawsNo ++;
 					}
 				}
-
-				$user->draws = $drawsNo;
-
+				foreach ($group->matches as $match){
+					foreach ($match->sets as $set){
+						if($match->first_player_id == $user->id){
+							$gamesWon += $set->first_player_games;
+							$gamesLost += $set->second_player_games;
+						}
+						elseif($match->second_player_id == $user->id){
+							$gamesWon += $set->second_player_games;
+							$gamesLost += $set->first_player_games;
+						}	
+					}
+				}
+			
 				$matches_played = $winsNo + $lossesNo + $drawsNo;
-
-				$user->points = $winsNo*3 + $drawsNo;
 				
 				$userId = $user->id;
 
-				$group->users()->updateExistingPivot($userId, ['wins'=> $winsNo, 'losses' => $lossesNo, 'draws' => $drawsNo, 'points' => ($winsNo*3 + $drawsNo), 'matches_played' => $matches_played]);
+				$group->users()->updateExistingPivot($userId, ['wins'=> $winsNo, 'losses' => $lossesNo, 'draws' => $drawsNo, 'points' => ($winsNo*3 + $drawsNo), 'matches_played' => $matches_played, 'games_won' => $gamesWon, 'games_lost' => $gamesLost]);
 				
-				// $user->save();
 			}
 
 			

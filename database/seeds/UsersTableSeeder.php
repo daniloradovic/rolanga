@@ -19,8 +19,8 @@ class UsersTableSeeder extends Seeder
     	$role_admin  = Role::where('name', 'admin')->first();
 
     	$player = new User();
-    	$player->name = 'Sreten Radulovic';
-    	$player->email = 'sreten@example.com';
+    	$player->name = 'Milos Markovic';
+    	$player->email = 'mikeli@example.com';
     	$player->password = bcrypt('secret');
     	$player->save();
     	$player->roles()->attach($role_player);
@@ -61,8 +61,8 @@ class UsersTableSeeder extends Seeder
     	$player->roles()->attach($role_player);
 
     	$player = new User();
-    	$player->name = 'Jovan Cicmil';
-    	$player->email = 'jovanc@example.com';
+    	$player->name = 'Boban Cabarkapa';
+    	$player->email = 'boban@example.com';
     	$player->password = bcrypt('secret');
     	$player->save();
     	$player->roles()->attach($role_player);
@@ -89,8 +89,8 @@ class UsersTableSeeder extends Seeder
     	$player->roles()->attach($role_player);
 
     	$player = new User();
-    	$player->name = 'Dragan Gazivoda';
-    	$player->email = 'dragang@example.com';
+    	$player->name = 'Danilo Djuric ';
+    	$player->email = 'djula@example.com';
     	$player->password = bcrypt('secret');
     	$player->save();
     	$player->roles()->attach($role_player);
@@ -101,6 +101,20 @@ class UsersTableSeeder extends Seeder
     	$admin->password = bcrypt('pokerica24');
     	$admin->save();
     	$admin->roles()->attach($role_admin);
+
+        $player = new User();
+        $player->name = 'Ivo Markovic ';
+        $player->email = 'ivo@example.com';
+        $player->password = bcrypt('secret');
+        $player->save();
+        $player->roles()->attach($role_player);
+
+        $player = new User();
+        $player->name = 'Filip Jovanovic';
+        $player->email = 'filip@example.com';
+        $player->password = bcrypt('secret');
+        $player->save();
+        $player->roles()->attach($role_player);
 
 
        // $user = factory(App\User::class)->create([

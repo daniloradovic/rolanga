@@ -17,7 +17,7 @@ class Match extends Model
 
 	protected $fillable = [
 
-	'first_player_id', 'second_player_id', 'round_id', 'group_id', 'match_winner', 'match_losser', 'draw', 'match_played'
+	'first_player_id', 'second_player_id', 'round_id', 'group_id', 'match_winner', 'match_losser', 'draw', 'match_played', 'first_player_games', 'second_player_games'
 	
 	];
 

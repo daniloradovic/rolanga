@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Role;
 use App\Group;
 use App\Match;
+use App\Set;
 use App\Tournament;
 
 class User extends Authenticatable
@@ -51,6 +52,13 @@ class User extends Authenticatable
     {
 
         return $this->belongsToMany(Match::class);
+
+    }
+
+    public function sets()
+    {
+
+        return $this->belongsToMany(Set::class);
 
     }
 
