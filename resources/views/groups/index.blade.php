@@ -125,7 +125,7 @@
                 </div>
               </div>
               <div>
-                <p>Matches played {{ $round->matches_played }}/{{ count($round->matches) }}</p>
+                <p>Matches played in Round {{ $round->round_number }} : {{ $round->matches_played }}/{{ count($round->matches) }}</p>
                 @if ($round->matches_played == count($round->matches))
                 <div class="alert alert-success">
                   <p>ROUND COMPLETED!</p>
@@ -241,7 +241,7 @@
                   </div>
                 </div>
                 <div>
-                  <p>Matches played {{ $round->matches_played }}/{{ count($round->matches) }}</p>
+                  <p>Matches played in Round {{ $round->round_number }} : {{ $round->matches_played }}/{{ count($round->matches) }}</p>
                   @if ($round->matches_played == count($round->matches))
                   <div class="alert alert-success">
                     <p>ROUND COMPLETED!</p>
