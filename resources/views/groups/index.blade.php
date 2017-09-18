@@ -7,7 +7,7 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h1 class="center">ROLANGA ROS Tournament</h1>
+          <h1 class="center">{{ $tournament->tournament_name }} Tournament</h1>
         </div>
         <div class="panel-body">
 
@@ -33,6 +33,7 @@
                 </tr>
               </thead>
               <?php $i = 0 ?>
+
               @foreach($tournament->groups[0]->users as $user)
               <?php $i++ ?>
               
@@ -40,7 +41,7 @@
                 <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }}">
                   <th scope="row">{{ $i }}</th>
                   <td>{{ $user->name }}</td>
-                  <td>0</td>
+                  <td>{{ $user->pivot->matches_played }}</td>
                   <td>{{ $user->pivot->wins }}</td>
                   <td>{{ $user->pivot->draws }}</td>
                   <td>{{ $user->pivot->losses }}</td> 
@@ -50,6 +51,7 @@
               </tbody>
               @endforeach
             </table>
+            
             <p class="center">
               <button class="btn btn-primary" id="showGamesA" type="button" data-toggle="collapse" data-target="#collapseGroupA" aria-expanded="false" aria-controls="collapseGroupA">Show Games
               </button>
@@ -131,13 +133,21 @@
                                 @endforeach
                               </div>
                               @if ($round->player_off != 0)
-                                <div class="col-md-4 col-md-offset-4 alert alert-info">
-                                  <p>{{ $round->group->users->where('id','=',$round->player_off)->pluck('name')->first() }} is free in this round</p>
-                                </div>
+                              <div class="col-md-4 col-md-offset-4 alert alert-info">
+                                <p>{{ $round->group->users->where('id','=',$round->player_off)->pluck('name')->first() }} is free in this round</p>
+                              </div>
                               @endif
                             </div>
                           </div>
                         </div>
+                      </div>
+                      <div>
+                        <p>Matches played {{ $round->matches_played }}/{{ count($round->matches) }}</p>
+                        @if ($round->matches_played == count($round->matches))
+                        <div class="alert alert-success">
+                          <p>ROUND COMPLETED!</p>
+                        </div>
+                        @endif
                       </div>
                       @endforeach
                     </div>
@@ -149,161 +159,165 @@
               <table class="table table-bordered">
                 <h1>Group B</h1>
                 <thead class="thead-inverse">
-                  <tr>
-                    <th class="col-md-1">#</th>
-                    <th class="col-md-1">Player</th>
-                    <th class="col-md-1">P</th>
-                    <th class="col-md-1">W</th>
-                    <th class="col-md-1">L</th>
-                    <th class="col-md-1">%</th>
-                    <th class="col-md-1">+/-</th>
-                    <th class="col-md-1">Points</th>
-                  </tr>
-                </thead>
+                 <tr>
+                  <th class="col-md-1">#</th>
+                  <th class="col-md-1">Player</th>
+                  <th class="col-md-1">P</th>
+                  <th class="col-md-1">W</th>
+                  <th class="col-md-1">D</th>
+                  <th class="col-md-1">L</th>
+                  <th class="col-md-1">+/-</th>
+                  <th class="col-md-1">Points</th>
+                </tr>
+              </thead>
 
-                <?php $i = 0 ?>
-                @foreach($tournament->groups[1]->users as $user)
-                <?php $i++ ?>
-                <tbody>
-                  <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }}">
-                    <th scope="row">{{ $i }}</th>
-                    <td>{{ $user->name }}</td>
-                    <td>0</td>
-                    <td>{{ $user->pivot->wins }}</td>
-                    <td>{{ $user->pivot->draws }}</td>
-                    <td>{{ $user->pivot->losses }}</td> 
-                    <td>0</td>
-                    <td>{{ $user->pivot->points }}</td>                         
-                  </tr>
-                </tbody>
-                @endforeach
-              </table>
-              <p class="center">
-                <button class="btn btn-primary" id="showGamesB" type="button" data-toggle="collapse" data-target="#collapseGroupB" aria-expanded="false" aria-controls="collapseGroupB">Show Games
-                </button>
-              </p>
-              <div class="latest_qualifiers_games_wrapper">
-                <div class="latest_qualifier_games wide">
-                  <div class="latest_qualifier_games_content local">
-                    <div class="day_wrapper">
-                      <div class="group collapse" id="collapseGroupB">
-                        @foreach($tournament->groups[1]->rounds as $round)
-                        <div class="round">
-                          <div class="pannel-group" id="accordionB" role="tablist" aria-multiselectable="true">
-                            <div class="pannel pannel-default center">
-                              <div class="panel-heading" role="tab" id="headingB{{$round->round_number}}">
-                                <h4 class="pannel-title">
-                                  <a role="button" data-toggle="collapse" data-parent="#accordionB" href="#collapseB{{$round->round_number}}" aria-expanded="true" aria-controls="collapseB{{$round->round_number}}">Round {{$round->round_number}} </a>
-                                </h4>
-                                <h5>Round starts on {{ \Carbon\Carbon::parse($round->start_date)->toFormattedDateString() }} </h5>
-                              </div>
+              <?php $i = 0 ?>
+              @foreach($tournament->groups[1]->users as $user)
+              <?php $i++ ?>
+              <tbody>
+                <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }}">
+                  <th scope="row">{{ $i }}</th>
+                  <td>{{ $user->name }}</td>
+                  <td>{{ $user->pivot->matches_played }}</td>
+                  <td>{{ $user->pivot->wins }}</td>
+                  <td>{{ $user->pivot->draws }}</td>
+                  <td>{{ $user->pivot->losses }}</td> 
+                  <td>0</td>
+                  <td>{{ $user->pivot->points }}</td>                         
+                </tr>
+              </tbody>
+              @endforeach
+            </table>
+            <p class="center">
+              <button class="btn btn-primary" id="showGamesB" type="button" data-toggle="collapse" data-target="#collapseGroupB" aria-expanded="false" aria-controls="collapseGroupB">Show Games
+              </button>
+            </p>
+            <div class="latest_qualifiers_games_wrapper">
+              <div class="latest_qualifier_games wide">
+                <div class="latest_qualifier_games_content local">
+                  <div class="day_wrapper">
+                    <div class="group collapse" id="collapseGroupB">
+                      @foreach($tournament->groups[1]->rounds as $round)
+                      <div class="round">
+                        <div class="pannel-group" id="accordionB" role="tablist" aria-multiselectable="true">
+                          <div class="pannel pannel-default center">
+                            <div class="panel-heading" role="tab" id="headingB{{$round->round_number}}">
+                              <h4 class="pannel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordionB" href="#collapseB{{$round->round_number}}" aria-expanded="true" aria-controls="collapseB{{$round->round_number}}">Round {{$round->round_number}} </a>
+                              </h4>
+                              <h5>Round starts on {{ \Carbon\Carbon::parse($round->start_date)->toFormattedDateString() }} </h5>
                             </div>
-                            <div id="collapseB{{$round->round_number}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingB{{$round->round_number}}">
-                              <div class="panel-body">
-                                <div class="games_list">
-                                  @foreach($round->matches as $match)
-                                  <div class="game_item" id="match{{ $match->id }}">                                        
-                                    <div class="participants">
-                                      <form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}/edit" method="GET">
-                                        {{-- <form action="/scores" method="POST"> --}}
-                                        {{csrf_field()}}
-                                        <table class="country left .col-md-1">
-                                          <tbody>
-                                            <tr>
-                                              <td class="country_col">
-                                                <div class="name">
-                                                  <span>{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</span>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                        <table class="table table-borderless points">
-                                          <tbody>
-                                            <tr>
-                                              @foreach($match->sets as $set)
-                                              <th class="center">Set{{ $set->set_number }}</th>
-                                              @endforeach
-                                            </tr>
-                                            <tr>
-                                              @foreach($match->sets as $set)
-                                              <td class="form-group row center">
-                                                <p class="col-md-2">{{ $set->first_player_games }}</p>
-                                                <p class="col-md-2">{{ $set->second_player_games }}</p>
-                                              </td>
-                                              @endforeach
-                                            </tr>                                       
-                                          </tbody>
-                                        </table>
-                                        <table class="country right .col-md-1">
-                                          <tbody>
-                                            <tr>
-                                              <td class="country_col">
-                                                <div class="name">
-                                                  <span>{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</span>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                      @if (Auth::check())
-                                      @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists())
-                                      <div class="additional_content">
-                                        <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm" id="match{{ $match->id }}">Edit result</button>
-                                      </div>
-                                      @endif
-                                      @endif
+                          </div>
+                          <div id="collapseB{{$round->round_number}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingB{{$round->round_number}}">
+                            <div class="panel-body">
+                              <div class="games_list">
+                                @foreach($round->matches as $match)
+                                <div class="game_item" id="match{{ $match->id }}">                                        
+                                  <div class="participants">
+                                    <form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}/edit" method="GET">
+                                      {{-- <form action="/scores" method="POST"> --}}
+                                      {{csrf_field()}}
+                                      <table class="country left .col-md-1">
+                                        <tbody>
+                                          <tr>
+                                            <td class="country_col">
+                                              <div class="name">
+                                                <span>{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</span>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                      <table class="table table-borderless points">
+                                        <tbody>
+                                          <tr>
+                                            @foreach($match->sets as $set)
+                                            <th class="center">Set{{ $set->set_number }}</th>
+                                            @endforeach
+                                          </tr>
+                                          <tr>
+                                            @foreach($match->sets as $set)
+                                            <td class="form-group row center">
+                                              <p class="col-md-2">{{ $set->first_player_games }}</p>
+                                              <p class="col-md-2">{{ $set->second_player_games }}</p>
+                                            </td>
+                                            @endforeach
+                                          </tr>                                       
+                                        </tbody>
+                                      </table>
+                                      <table class="country right .col-md-1">
+                                        <tbody>
+                                          <tr>
+                                            <td class="country_col">
+                                              <div class="name">
+                                                <span>{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</span>
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
                                     </div>
-                                  </form>
-                                  @endforeach
-                                </div >
-                                @if ($round->player_off != 0)
-                                <div class="col-md-4 col-md-offset-4 alert alert-info">
-                                  <p>{{ $round->group->users->where('id','=',$round->player_off)->pluck('name')->first() }} is free in this round</p>
-                                </div>
-                                @endif
+                                    @if (Auth::check())
+                                    @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists())
+                                    <div class="additional_content">
+                                      <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm" id="match{{ $match->id }}">Edit result</button>
+                                    </div>
+                                    @endif
+                                    @endif
+                                  </div>
+                                </form>
+                                @endforeach
+                              </div >
+                              @if ($round->player_off != 0)
+                              <div class="col-md-4 col-md-offset-4 alert alert-info">
+                                <p>{{ $round->group->users->where('id','=',$round->player_off)->pluck('name')->first() }} is free in this round</p>
                               </div>
+                              @endif
                             </div>
                           </div>
                         </div>
-                        @endforeach
                       </div>
+                      @endforeach
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div>
-              <form method="POST" action="/tournaments/{{ $tournament->id }}/groups" >
-                {{ csrf_field() }} 
-                {{ method_field('delete') }}
-                 
-                <button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#deleteTournament{!! $tournament->id !!}">Delete Tournament</button>
-                <div class="modal fade" id="deleteTournament{!! $tournament->id !!}" tabindex="-1" role="dialog" aria-labelledby="deleteTournamentLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h4>Are you shure that you want to delete this tournament?</h4>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger" >Yes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                      </div>
+          </div>
+          @if (Auth::check())
+          @if(Auth::user()->roles()->where('name','=','admin')->exists())
+          <div>
+            <form method="POST" action="/tournaments/{{ $tournament->id }}/groups" >
+              {{ csrf_field() }} 
+              {{ method_field('delete') }}
+
+              <button type="button" class="btn btn-primary btn-large btn-danger  col-md-6 col-md-offset-3" data-toggle="modal" data-target="#deleteTournament{!! $tournament->id !!}">Delete Tournament</button>
+              <div class="modal fade" id="deleteTournament{!! $tournament->id !!}" tabindex="-1" role="dialog" aria-labelledby="deleteTournamentLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <h4>Are you shure that you want to delete this tournament?</h4>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-danger" >Yes</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                   </div>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
+          @endif
+          @endif
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  @endsection
+@endsection

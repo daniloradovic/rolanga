@@ -150,6 +150,7 @@ class SetsController extends Controller
 				$match->match_winner = $match->first_player_id;
 				$match->match_losser = $match->second_player_id;
 				$match->draw = false;
+				$match->match_played = true;
 			}
 
 			elseif ($playerOneCount < $playerTwoCount)
@@ -157,6 +158,7 @@ class SetsController extends Controller
 				$match->match_winner = $match->second_player_id;
 				$match->match_losser = $match->first_player_id;
 				$match->draw = false;
+				$match->match_played = true;
 			}
 
 			elseif(($playerOneCount == $playerTwoCount) && ($playerOneCount != 0) && ($playerTwoCount != 0))
@@ -164,6 +166,7 @@ class SetsController extends Controller
 				$match->match_winner = null;
 				$match->match_losser = null;
 				$match->draw = true;
+				$match->match_played = true;
 			}
 
 			elseif(($draw != 0) && ($playerOneCount == 0) && ($playerTwoCount == 0))
@@ -171,6 +174,7 @@ class SetsController extends Controller
 				$match->match_winner = null;
 				$match->match_losser = null;
 				$match->draw = true;
+				$match->match_played = true;
 			}
 
 			elseif($draw == 0)
@@ -178,9 +182,16 @@ class SetsController extends Controller
 				$match->match_winner = null;
 				$match->match_losser = null;
 				$match->draw = false;
+				$match->match_played = false;
 			}
 
 			$match->save();
+
+			foreach($group->rounds as $round)
+			{
+				$round->matches_played = count($round->matches()->where('match_played','=', true)->get());
+				$round->save();
+			}
 
 			foreach ($users as $user){
 				
@@ -198,14 +209,20 @@ class SetsController extends Controller
 
 				$user->draws = $drawsNo;
 
+				$matches_played = $winsNo + $lossesNo + $drawsNo;
+
 				$user->points = $winsNo*3 + $drawsNo;
 				
 				$userId = $user->id;
 
-				$group->users()->updateExistingPivot($userId, ['wins'=> $winsNo, 'losses' => $lossesNo, 'draws' => $drawsNo, 'points' => ($winsNo*3 + $drawsNo)]);
+				$group->users()->updateExistingPivot($userId, ['wins'=> $winsNo, 'losses' => $lossesNo, 'draws' => $drawsNo, 'points' => ($winsNo*3 + $drawsNo), 'matches_played' => $matches_played]);
 				
 				// $user->save();
 			}
+
+			
+
+			$users = $group->users->sortByDesc('pivot_points');
 			
 			return redirect()->route('showGroups', ['tournament' => $tournament->id]);
 		}

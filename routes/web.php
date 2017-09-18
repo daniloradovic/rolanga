@@ -33,7 +33,7 @@ Route::post('/generate', 'TournamentsController@generateGroups');
 
 Route::get('/tournaments/{tournament}/groups', 'TournamentsController@showGroups')->name('showGroups');
 
-Route::delete('/tournaments/{tournament}/groups', 'TournamentsController@destroy');
+Route::delete('/tournaments/{tournament}/groups', 'TournamentsController@destroy')->middleware('tournamentAdmin');
 
 Route::get('/tournaments/{tournament}/matches/{match}/edit', 'SetsController@edit');
 
