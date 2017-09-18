@@ -12,9 +12,9 @@ class TournamentTableSeeder extends Seeder
      */
     public function run()
     {
-        $tournament = new Tournament();
-    	$tournament->tournament_name = 'Rolanga';
-    	$tournament->id = 1;
-    	$tournament->save();
+     //    $tournament = new Tournament();
+    	// $tournament->tournament_name = 'Rolanga';
+    	// $tournament->id = 1;
+    	// $tournament->save();
     }
 }

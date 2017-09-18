@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="container">
-<div class="panel-body">
-<div class="games_list">
+{{-- <div class="panel-body">
+<div class="games_list"> --}}
 	<div class="game_item" id="match{{ $match->id }}">                                        
 		<div class="participants">
 			<form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}" method="POST">
@@ -12,62 +12,44 @@
 				{{csrf_field()}}
 				{{ method_field('patch') }}
 				
-				<table class="country left .col-md-1">
-					<tbody>
-						<tr>
-							<td class="country_col">
-								<div class="name">
-									<span>{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</span>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
 				<table class="table table-borderless points">
-					<tbody>
+					<thead>
 						<tr>
+							<th>#</th>
 							@foreach($match->sets as $set)
 							<th class="center">Set{{ $set->set_number }}</th>
 							@endforeach
 						</tr>
+					</thead>
+					<tbody>
+						
 						<tr>
+							<th>{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</span></th>
+							@foreach($match->sets as $set)
+							<td class="form-group row center">		
+								<input type="number"  id="set{{ $set->id }}player1" name="set{{ $set->id }}player1" max="7" min="0" value="{{ old('name', $set->first_player_games)}}">
+		                   	</td>
+		                   	@endforeach
+	              	 	</tr>
+	              	 	
+						<tr>
+						<th>{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</span></th>
 						@foreach($match->sets as $set)
 						<td class="form-group row center">
-							<div class="col-md-2">
-								<div class="form-group row center">
-									@for($i=1; $i<=2; $i++)
-										@if ($i == 1)
-										<input type="number"  id="set{{ $set->id }}player{{ $i }}" name="set{{ $set->id }}player{{ $i }}" max="7" min="0" value="{{ old('name', $set->first_player_games)}}">
-										@else
-										<input type="number"  id="set{{ $set->id }}player{{ $i }}" name="set{{ $set->id }}player{{ $i }}" max="7" min="0" value="{{ old('name', $set->second_player_games)}}">
-										@endif
-									@endfor
-								</div>
-							</div>
-	                   </td>
-	                   @endforeach
-	               </tr>                                       
-	           </tbody>
-	       </table>
-	       <table class="country right .col-md-1">
-	       	<tbody>
-	       		<tr>
-	       			<td class="country_col">
-	       				<div class="name">
-	       					<span>{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</span>
-	       				</div>
-	       			</td>
-	       		</tr>
-	       	</tbody>
-	       </table>
+							<input type="number"  id="set{{ $set->id }}player2" name="set{{ $set->id }}player2" max="7" min="0" value="{{ old('name', $set->first_player_games)}}">
+	                   	</td>
+	                   	@endforeach
+	              	 	</tr>  
+	           		</tbody>
+	       		</table>
 	   </div>
-	   <div class="additional_content">
-	   	<button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm" id="match{{ $match->id }}">Save</button>
+	   <div class="col-md-4 col-md-offset-5">
+	   	<button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-success col-md-4" id="match{{ $match->id }}">Save</button>
 	   </div>
 	</div>
 	</form>
 </div>
-</div>	
-</div>
+{{-- </div>	
+</div> --}}
 
 @endsection

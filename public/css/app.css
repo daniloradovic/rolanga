@@ -6565,7 +6565,7 @@ button.close {
 
 /*custom css*/
 
-.qualifiers_group_table .latest_qualifiers_games_wrapper {
+/*.qualifiers_group_table .latest_qualifiers_games_wrapper {
     display: none
 }
 
@@ -7115,7 +7115,15 @@ html[dir="rtl"] .new_brackets_container .drawn .name {
 .new_brackets_container .name .short {
     display: inline-block
 }
+*/
 
+.additional_content {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-size: 14px;
+    color: #7f7f7f;
+    text-align: center
+}
 .center{
     text-align: center;
     position:center;
@@ -7142,3 +7150,18 @@ tr {
 .table>tbody>tr>th.center {
     border-top: 0px
 } 
+
+
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+
+.results tr[visible='true']{
+  display:table-row;
+}
+
+.counter{
+  padding:8px; 
+  color:#ccc;
+}
