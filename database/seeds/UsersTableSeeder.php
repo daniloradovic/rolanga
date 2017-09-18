@@ -75,8 +75,8 @@ class UsersTableSeeder extends Seeder
     	$player->roles()->attach($role_player);
 
     	$player = new User();
-    	$player->name = 'Bojan Rosandic';
-    	$player->email = 'bojan@example.com';
+    	$player->name = 'Jakov Milatovic';
+    	$player->email = 'jakov@example.com';
     	$player->password = bcrypt('secret');
     	$player->save();
     	$player->roles()->attach($role_player);
