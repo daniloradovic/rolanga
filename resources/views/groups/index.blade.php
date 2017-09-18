@@ -106,7 +106,7 @@
                             </div>
                             @if (Auth::check())
                               @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists())
-                              <div class="additional_content wrath-content-box">
+                              <div class="additional_content">
                                 <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-warning" id="match{{ $match->id }}">Edit result</button>
                               </div>
                               @endif
@@ -223,7 +223,7 @@
                               @if (Auth::check())
                               @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists())
                               <div class="additional_content">
-                                <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-sm" id="match{{ $match->id }}">Edit result</button>
+                                <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-warning" id="match{{ $match->id }}">Edit result</button>
                               </div>
                               @endif
                               @endif
