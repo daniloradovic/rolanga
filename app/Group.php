@@ -69,8 +69,9 @@ class Group extends Model
 
             $round->generateMatches($groupUsers);
             
-            if(! is_int($usersNo/2)){
-                $round->player_off = $groupUsers[$playerFreeNo+1]['id'];
+            if($usersNo % 2 != 0)
+            {
+                $round->player_off = $groupUsers[$playerFreeNo]['id'];
                 $round->save();
             }
             

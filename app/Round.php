@@ -41,7 +41,7 @@ class Round extends Model
         
         $roundNumber = $this->round_number;
 
-        if (is_int($usersNo/2))
+        if ($usersNo % 2 == 0)
         {
         	for($m=0; $m<$usersNo/2; $m++)
         	{   
