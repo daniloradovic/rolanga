@@ -18,11 +18,11 @@
           @endif
           <!-- List group -->
             <div class="list-group">
-              <table class="table table-bordered table-hover results">
+              <table class="table table-bordered table-hover results table-striped">
                 <h1>Group A</h1>
                 <thead class="thead-inverse">
                   <tr>
-                    <th class="col-md-1 col-xs-1">#</th>
+                    <th class="col-md-1 col-xs-1 center">#</th>
                     <th class="col-md-1 col-xs-1 center">Player</th>
                     <th class="col-md-1 col-xs-1 center">P</th>
                     <th class="col-md-1 col-xs-1 center">W</th>
@@ -33,23 +33,21 @@
                   </tr>
                 </thead>
                 <?php $i = 0 ?>
-
+                <tbody>
                 @foreach($tournament->groups[0]->users as $user)
                 <?php $i++ ?>
-                
-                <tbody>
-                  <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }} {{ $i==4 ? "table-border-bottom" : ""}}">
-                    <th scope="row">{{ $i }}</th>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->pivot->matches_played }}</td>
-                    <td>{{ $user->pivot->wins }}</td>
-                    <td>{{ $user->pivot->draws }}</td>
-                    <td>{{ $user->pivot->losses }}</td> 
-                    <td>{{ $user->pivot->games_won }} : {{ $user->pivot->games_lost }}</td>
-                    <td>{{ $user->pivot->points }}</td>                           
+                  <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'danger' : ''  }} {{ $i==4 ? "table-border-bottom" : ""}}">
+                    <td class="center">{{ $i }}</td>
+                    <td class="center">{{ $user->name }}</td>
+                    <td class="center">{{ $user->pivot->matches_played }}</td>
+                    <td class="center">{{ $user->pivot->wins }}</td>
+                    <td class="center">{{ $user->pivot->draws }}</td>
+                    <td class="center">{{ $user->pivot->losses }}</td> 
+                    <td class="center">{{ $user->pivot->games_won }} : {{ $user->pivot->games_lost }}</td>
+                    <td class="center">{{ $user->pivot->points }}</td>                           
                   </tr>
-                </tbody>
                 @endforeach
+                </tbody>
               </table>
               <p class="center">
                 <button class="btn btn-primary" id="showGamesA" type="button" data-toggle="collapse" data-target="#collapseGroupA" aria-expanded="false" aria-controls="collapseGroupA">Show Games
@@ -67,7 +65,7 @@
                       <h5>Round starts on {{ \Carbon\Carbon::parse($round->start_date)->toFormattedDateString()  }} </h5>
                     </div>
                   </div>
-                  <div id="collapseA{{$round->round_number}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingA{{$round->round_number}}">
+                  <div id="collapseA{{$round->round_number}}" class="panel-collapse collapse {{ (Carbon\Carbon::now()->toFormattedDateString() > \Carbon\Carbon::parse($round->start_date)->toFormattedDateString() && Carbon\Carbon::now()->toFormattedDateString() <= Carbon\Carbon::parse($round->start_date)->addDays(7)->toFormattedDateString() )  ? 'in' : '' }}" role="tabpanel" aria-labelledby="headingB{{$round->round_number}}">
                     <div class="panel-body">
                       <div class="games_list">
                         @foreach($round->matches as $match)
@@ -78,7 +76,7 @@
                               <table class="table table-bordered points">
                                 <thead>
                                   <tr>
-                                    <th>#</th>
+                                    <th class="center">#</th>
                                     @foreach($match->sets as $set)
                                     <th class="center">Set{{ $set->set_number }}</th>
                                     @endforeach
@@ -86,7 +84,7 @@
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <th class="col-md-2 col-xs-2">{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
+                                    <th class="col-md-2 col-xs-2 center">{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
                                     @foreach($match->sets as $set)
                                     <td class="center">
                                       {{ $set->first_player_games }}
@@ -94,7 +92,7 @@
                                     @endforeach
                                   </tr>
                                   <tr>
-                                    <th class="col-md-2 col-xs-2">{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
+                                    <th class="col-md-2 col-xs-2 center">{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
                                     @foreach($match->sets as $set)
                                     <td class="center">
                                       {{ $set->second_player_games }}
@@ -107,7 +105,7 @@
                             @if (Auth::check())
                               @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists())
                               <div class="additional_content">
-                                <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-warning" id="match{{ $match->id }}">Edit result</button>
+                                <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-danger" id="match{{ $match->id }}">Edit result</button>
                               </div>
                               @endif
                             @endif
@@ -135,11 +133,11 @@
               @endforeach
             </div>
             <div class="list-group">
-              <table class="table table-bordered table-hover results">
+              <table class="table table-bordered table-hover table-striped results">
                 <h1>Group B</h1>
                 <thead class="thead-inverse">
                   <tr>
-                    <th class="col-md-1 col-xs-1">#</th>
+                    <th class="col-md-1 col-xs-1 center">#</th>
                     <th class="col-md-1 col-xs-1 center">Player</th>
                     <th class="col-md-1 col-xs-1 center">P</th>
                     <th class="col-md-1 col-xs-1 center">W</th>
@@ -149,23 +147,22 @@
                     <th class="col-md-1 col-xs-1 center">Points</th>
                   </tr>
                 </thead>
-
                 <?php $i = 0 ?>
+                <tbody>
                 @foreach($tournament->groups[1]->users as $user)
                 <?php $i++ ?>
-                <tbody>
-                  <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }} {{ $i==4 ? "table-border-bottom" : ""}}">
-                    <th scope="row">{{ $i }}</th>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->pivot->matches_played }}</td>
-                    <td>{{ $user->pivot->wins }}</td>
-                    <td>{{ $user->pivot->draws }}</td>
-                    <td>{{ $user->pivot->losses }}</td> 
-                    <td>{{ $user->pivot->games_won }} : {{ $user->pivot->games_lost }}</td>
-                    <td>{{ $user->pivot->points }}</td>                         
+                  <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'danger ' : ''  }} {{ $i==4 ? "table-border-bottom" : ""}}">
+                    <td class="center">{{ $i }}</td>
+                    <td class="center">{{ $user->name }}</td>
+                    <td class="center">{{ $user->pivot->matches_played }}</td>
+                    <td class="center">{{ $user->pivot->wins }}</td>
+                    <td class="center">{{ $user->pivot->draws }}</td>
+                    <td class="center">{{ $user->pivot->losses }}</td> 
+                    <td class="center">{{ $user->pivot->games_won }} : {{ $user->pivot->games_lost }}</td>
+                    <td class="center">{{ $user->pivot->points }}</td>                         
                   </tr>
-                </tbody>
                 @endforeach
+                </tbody>
               </table>
               <p class="center">
                 <button class="btn btn-primary" id="showGamesB" type="button" data-toggle="collapse" data-target="#collapseGroupB" aria-expanded="false" aria-controls="collapseGroupB">Show Games
@@ -183,7 +180,7 @@
                         <h5>Round starts on {{ \Carbon\Carbon::parse($round->start_date)->toFormattedDateString() }} </h5>
                       </div>
                     </div>
-                    <div id="collapseB{{$round->round_number}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingB{{$round->round_number}}">
+                    <div id="collapseB{{$round->round_number}}" class="panel-collapse collapse  {{ (Carbon\Carbon::now()->toFormattedDateString() > \Carbon\Carbon::parse($round->start_date)->toFormattedDateString() && Carbon\Carbon::now()->toFormattedDateString() <= Carbon\Carbon::parse($round->start_date)->addDays(7)->toFormattedDateString() )  ? 'in' : '' }}" role="tabpanel" aria-labelledby="headingB{{$round->round_number}}">
                       <div class="panel-body">
                         <div class="games_list">
                           @foreach($round->matches as $match)
@@ -194,7 +191,7 @@
                                 <table class="table table-bordered points">
                                   <thead>
                                     <tr>
-                                      <th>#</th>
+                                      <th class="center">#</th>
                                       @foreach($match->sets as $set)
                                       <th class="center">Set{{ $set->set_number }}</th>
                                       @endforeach
@@ -202,7 +199,7 @@
                                   </thead>
                                   <tbody>
                                     <tr >
-                                      <th class="col-md-2 col-xs-2">{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
+                                      <th class="col-md-2 col-xs-2 center">{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
                                       @foreach($match->sets as $set)
                                       <td class="center">
                                         {{ $set->first_player_games }}
@@ -210,7 +207,7 @@
                                       @endforeach
                                     </tr>
                                     <tr>
-                                      <th class="col-md-2 col-xs-2">{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
+                                      <th class="col-md-2 col-xs-2 center">{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
                                       @foreach($match->sets as $set)
                                       <td class="center">
                                         {{ $set->second_player_games }}
@@ -223,7 +220,7 @@
                               @if (Auth::check())
                               @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists())
                               <div class="additional_content">
-                                <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-warning" id="match{{ $match->id }}">Edit result</button>
+                                <button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-danger" id="match{{ $match->id }}">Edit result</button>
                               </div>
                               @endif
                               @endif

@@ -7126,6 +7126,7 @@ html[dir="rtl"] .new_brackets_container .drawn .name {
 }
 .center{
     text-align: center;
+    vertical-align: middle !important;
     position:center;
     padding-bottom: 20px;
 
@@ -7158,6 +7159,7 @@ tr {
 .results tr[visible='true']{
   display:table-row;
 }
+
 
 .counter{
   padding:8px; 
