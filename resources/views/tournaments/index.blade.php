@@ -7,8 +7,8 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
-			<h2 class="tournament-title">Active Tournaments</h2>
+		<div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">
+			<h2 class=" h2">Active Tournaments</h2>
 			<div class="list-group">
 				@if($errors->any())
 					<div class="alert alert-danger" role="alert">

@@ -7129,7 +7129,6 @@ html[dir="rtl"] .new_brackets_container .drawn .name {
     vertical-align: middle !important;
     position:center;
     padding-bottom: 20px;
-
 }
 
 a {
@@ -7171,4 +7170,46 @@ tr {
 }
 .table-border-bottom:hover{
     border-bottom: 3px solid #990000;
+
+}
+
+.panel-default .panel-heading {
+    background-color: red!important
+}
+
+.round-heading{
+    margin: 10px 20px 10px 20px !important;
+    padding: 10px 5px 10px 5px !important;
+}
+
+.round {
+    clear:both !important;
+}
+
+.panel-default > .panel-heading {
+    background: #E5AA70 !important;
+    background: linear-gradient(to bottom, #E5AA70 0%, #D69B61 100%) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #E5AA70), color-stop(100%, #D69B61));
+    background: -webkit-linear-gradient(top, #E5AA70 0%, #D69B61 100%) !important;
+    background: -moz-linear-gradient(top, #E5AA70 0%, #D69B61 100%) !important;
+    background: -o-linear-gradient(top, #E5AA70 0%, #D69B61 100%) !important;
+    background: -ms-linear-gradient(top, #E5AA70 0%, #D69B61 100%) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E5AA70', endColorstr='#D69B61', GradientType=0);
+    border: 1px solid #C78C52 !important;
+    box-shadow: inset 0 1px 0 #F4B97F !important;
+    -webkit-box-shadow: inset 0 1px 0 #F4B97F !important;
+    -moz-box-shadow: inset 0 1px 0 #F4B97F !important
+}
+
+.row{
+    margin-top: 150px !important;
+}
+
+.game_item{
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.danger{
+    background-color: #E5AA70 !important;
 }
