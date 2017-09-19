@@ -111,12 +111,12 @@
                           @endif
                         </div>
                       </form>
-                        @if ($round->player_off != 0)
-                        <div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 alert alert-info">
-                          <p>{{ $round->group->users->where('id','=',$round->player_off)->pluck('name')->first() }} is free in this round</p>
-                        </div>
-                        @endif
                       @endforeach
+                      @if ($round->player_off != 0)
+                      <div class="col-md-8 col-md-offset-2 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 alert alert-info">
+                        <p>{{ $round->group->users->where('id','=',$round->player_off)->pluck('name')->first() }} is free in this round</p>
+                      </div>
+                      @endif
                     </div>
                   </div>
                 </div>
