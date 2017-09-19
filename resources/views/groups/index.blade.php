@@ -23,13 +23,13 @@
                 <thead class="thead-inverse">
                   <tr>
                     <th class="col-md-1 col-xs-1">#</th>
-                    <th class="col-md-1 col-xs-1">Player</th>
-                    <th class="col-md-1 col-xs-1">P</th>
-                    <th class="col-md-1 col-xs-1">W</th>
-                    <th class="col-md-1 col-xs-1">D</th>
-                    <th class="col-md-1 col-xs-1">L</th>
-                    <th class="col-md-1 col-xs-1">+/-</th>
-                    <th class="col-md-1 col-xs-1">Points</th>
+                    <th class="col-md-1 col-xs-1 center">Player</th>
+                    <th class="col-md-1 col-xs-1 center">P</th>
+                    <th class="col-md-1 col-xs-1 center">W</th>
+                    <th class="col-md-1 col-xs-1 center">D</th>
+                    <th class="col-md-1 col-xs-1 center">L</th>
+                    <th class="col-md-1 col-xs-1 center">+/-</th>
+                    <th class="col-md-1 col-xs-1 center">Points</th>
                   </tr>
                 </thead>
                 <?php $i = 0 ?>
@@ -38,7 +38,7 @@
                 <?php $i++ ?>
                 
                 <tbody>
-                  <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }}">
+                  <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }} {{ $i==4 ? "table-border-bottom" : ""}}">
                     <th scope="row">{{ $i }}</th>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->pivot->matches_played }}</td>
@@ -86,7 +86,7 @@
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <th>{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
+                                    <th class="col-md-2 col-xs-2">{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
                                     @foreach($match->sets as $set)
                                     <td class="center">
                                       {{ $set->first_player_games }}
@@ -94,7 +94,7 @@
                                     @endforeach
                                   </tr>
                                   <tr>
-                                    <th>{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
+                                    <th class="col-md-2 col-xs-2">{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
                                     @foreach($match->sets as $set)
                                     <td class="center">
                                       {{ $set->second_player_games }}
@@ -140,13 +140,13 @@
                 <thead class="thead-inverse">
                   <tr>
                     <th class="col-md-1 col-xs-1">#</th>
-                    <th class="col-md-1 col-xs-1">Player</th>
-                    <th class="col-md-1 col-xs-1">P</th>
-                    <th class="col-md-1 col-xs-1">W</th>
-                    <th class="col-md-1 col-xs-1">D</th>
-                    <th class="col-md-1 col-xs-1">L</th>
-                    <th class="col-md-1 col-xs-1">+/-</th>
-                    <th class="col-md-1 col-xs-1">Points</th>
+                    <th class="col-md-1 col-xs-1 center">Player</th>
+                    <th class="col-md-1 col-xs-1 center">P</th>
+                    <th class="col-md-1 col-xs-1 center">W</th>
+                    <th class="col-md-1 col-xs-1 center">D</th>
+                    <th class="col-md-1 col-xs-1 center">L</th>
+                    <th class="col-md-1 col-xs-1 center">+/-</th>
+                    <th class="col-md-1 col-xs-1 center">Points</th>
                   </tr>
                 </thead>
 
@@ -154,7 +154,7 @@
                 @foreach($tournament->groups[1]->users as $user)
                 <?php $i++ ?>
                 <tbody>
-                  <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }}">
+                  <tr class="{{ (Auth::check() && Auth::user()->id == $user->id) ? 'active' : ''  }} {{ $i==4 ? "table-border-bottom" : ""}}">
                     <th scope="row">{{ $i }}</th>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->pivot->matches_played }}</td>
@@ -201,19 +201,19 @@
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr>
-                                      <th>{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
+                                    <tr >
+                                      <th class="col-md-2 col-xs-2">{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
                                       @foreach($match->sets as $set)
-                                      <td class="form-group row center">
-                                        <p class="col-md-2">{{ $set->first_player_games }}</p>
+                                      <td class="center">
+                                        {{ $set->first_player_games }}
                                       </td>
                                       @endforeach
                                     </tr>
                                     <tr>
-                                      <th>{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
+                                      <th class="col-md-2 col-xs-2">{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
                                       @foreach($match->sets as $set)
-                                      <td class="form-group row center">
-                                        <p class="col-md-2">{{ $set->second_player_games }}</p>
+                                      <td class="center">
+                                        {{ $set->second_player_games }}
                                       </td>
                                       @endforeach
                                     </tr>

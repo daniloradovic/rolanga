@@ -7131,8 +7131,6 @@ html[dir="rtl"] .new_brackets_container .drawn .name {
 
 }
 
-
-
 a {
     text-decoration: none !important;
 }
@@ -7164,4 +7162,11 @@ tr {
 .counter{
   padding:8px; 
   color:#ccc;
+}
+
+.table-border-bottom{
+    border-bottom: 3px inset #7a7a52;
+}
+.table-border-bottom:hover{
+    border-bottom: 3px solid #990000;
 }
