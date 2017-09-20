@@ -146,6 +146,6 @@ class RegisterController extends Controller
     // for better readability
         User::where('token',$token)->firstOrFail()->verified();
 
-        return redirect('index');
+        return redirect('login');
     }
 }
