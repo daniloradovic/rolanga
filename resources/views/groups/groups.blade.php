@@ -6,15 +6,16 @@
   <div class="row">
     <div class="col-md-9 col-md-offset-1 ">
       <div class="panel panel-default">
-        <div class="panel-heading">Create Groups</div>
+        <div class="panel-heading">
+        <h3 class="center">Create Groups for {{ $tournament->tournament_name }} </h3>
+        </div>
         
         <div class="panel-body">
           <!-- List group -->
-          <div class="list-group">
+          <div class="list-group ">
           {{-- <form method="POST">
           {{ csrf_field() }} --}}
             <div class="tournament" id="{{ $tournament->id }}">
-              <h2>{{ $tournament->tournament_name }} </h2>
               @for ($i=0; $i<$tournament->groups_number; $i++)
                 <ul class=" col-md-3 col-md-offset-1 group{{ $i }} groups sortable" id="{{ $tournament->groups[$i]->id }}" name="Group{{ $i }}"> 
                   <h3 class="form-control">Group{{$i}}</h3>  
@@ -27,7 +28,7 @@
                 @endforeach
               </ul>
               
-              <div class="col-md-9 col-md-offset-1">
+              <div class="col-md-9 col-md-offset-1 center">
                 <button  class="list-group-item btn btn-default" id="submit-groups" name="submit-groups">Create</button>
               </div>
             {{-- </form> --}}

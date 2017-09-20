@@ -7129,6 +7129,7 @@ html[dir="rtl"] .new_brackets_container .drawn .name {
     vertical-align: middle !important;
     position:center;
     padding-bottom: 20px;
+    padding-top:5px;
 }
 
 a {
@@ -7212,4 +7213,8 @@ tr {
 
 .danger{
     background-color: #E5AA70 !important;
+}
+
+.btn-create-tournament {
+    margin-top: 20px !important;
 }
