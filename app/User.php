@@ -74,7 +74,7 @@ class User extends Authenticatable
     {
 
         return $this->roles()->save($role);
-    
+
     }
 
     public function hasRole($role)
@@ -119,5 +119,13 @@ class User extends Authenticatable
         }
         abort(401, 'This action is unauthorized');
 
+    }
+
+    // Set the verified status to true and make the email token null
+    public function verified()
+    {
+        $this->verified = 1;
+        $this->token = null;
+        $this->save();
     }
 }

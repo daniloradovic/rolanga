@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+
 use App\User;
-use App\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
-use Illuminate\Http\Request;
+// added facades
+use DB;
 use Mail;
+use App\Role;
+use Illuminate\Http\Request;
+use App\Mail\EmailVerification;
+
 
 class RegisterController extends Controller
 {
@@ -55,7 +59,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+            ]);
     }
 
     /**
@@ -66,67 +70,71 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
+
         $role = Role::where('name', 'player')->first();
         
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-        ]);
+            'token' => str_random(10),
+            ]);
         
         $user->assignRole($role);
-
-        
 
         return $user;
 
     }
 
+    /**
+    *  Over-ridden the register method from the "RegistersUsers" trait
+    *  Remember to take care while upgrading laravel
+    */
     protected function register(Request $request)
     {
 
-        $input = $request->all();
+        // Laravel validation
+        $validator = $this->validator($request->all());
 
-        $validator = $this->validator($input);
-
-        if ($validator->passes())
+        if ($validator->fails())
         {
-            $data = $this->create($input)->toArray();
 
-            $data['token'] = str_random(25);
+            $this->throwValidationException($request, $validator);
 
-            $user = User::find($data['id']);
-            $user->token = $data['token'];
-            $user->save();
-
-
-            Mail::send('mails.confirmation', $data, function($message) use($data){
-                $message->to($data['email']);
-                $message->subject('Registration Confirmation');
-            });
-
-            return redirect(route('login'))->with('status', 'Confirmation email has been sent, please check your email'); 
         }
 
-        return redirect(route('login'))->with('status', $validator->errors());
+        DB::beginTransaction();
+
+        try
+        {
+
+            $user = $this->create($request->all());
+
+            // After creating the user send an email with the random token generated in the create method above
+            $email = new EmailVerification(new User(['token' => $user->token, 'name' => $user->name]));
+
+            Mail::to($user->email)->send($email);
+            
+            DB::commit();
+
+            \Session::flash('message', 'We have sent you a verification email!');
+            return back();
+
+        }
+
+        catch(Exception $e)
+        {
+            DB::rollback(); 
+            return back();
+        }
 
     }
 
-    public function confirmation($token)
+    public function verify($token)
     {
-
-        $user = User::where('token', $token)->first();
-
-        if(! is_null($user)){
-            $user->verified = 1;
-            $user->token = '';
-            $user->save();
-
-            return redirect(route('login'))->with('status', 'Your activation has been completed');
-        }
-
-        return redirect(root('login'))->with('status','Something went wrong');
-
+    // The verified method has been added to the user model and chained here
+    // for better readability
+        User::where('token',$token)->firstOrFail()->verified();
+        return redirect('login');
     }
 }

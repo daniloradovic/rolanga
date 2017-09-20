@@ -4,14 +4,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            @if ($errors->has('message'))
+            <div class="alert alert-danger center">{{ $errors->first('message') }}</div>
+            @endif
             <div class="panel panel-default">
-                @if($status = Session::get('status'))
-
-                <div class="alert alert-info">
-                    {{ $status }}
-                </div>
-
-                @endif
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
@@ -22,7 +18,7 @@
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
-
+                                
                                 @if ($errors->has('email'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('email') }}</strong>

@@ -38,8 +38,7 @@ Route::delete('/tournaments/{tournament}/groups', 'TournamentsController@destroy
 Route::get('/tournaments/{tournament}/matches/{match}/edit', 'SetsController@edit');
 
 Route::patch('/tournaments/{tournament}/matches/{match}', 'SetsController@update')->name('setScore');
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/users/confirmation/{token}', 'Auth\RegisterController@confirmation')->name('confirmation');
+Route::get('register/verify/{token}', 'Auth\RegisterController@verify'); 
