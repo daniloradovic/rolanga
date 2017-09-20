@@ -7,6 +7,9 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth;
+use Illuminate\Contracts\Auth\Authenticatable;
 // added facades
 use DB;
 use Mail;
@@ -71,8 +74,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        $role = Role::where('name', 'player')->first();
-        
+        $rolePlayer = Role::where('name', 'player')->first();
+        $roleAdmin = Role::where('name', 'admin')->first();
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -80,7 +83,14 @@ class RegisterController extends Controller
             'token' => str_random(10),
             ]);
         
-        $user->assignRole($role);
+        if ($user->email == 'daniloradovic86@gmail.com')
+        {
+            $user->assignRole($roleAdmin);
+        }
+        else
+        {
+            $user->assignRole($rolePlayer);
+        }
 
         return $user;
 
@@ -135,6 +145,7 @@ class RegisterController extends Controller
     // The verified method has been added to the user model and chained here
     // for better readability
         User::where('token',$token)->firstOrFail()->verified();
-        return redirect('login');
+
+        return redirect('index');
     }
 }

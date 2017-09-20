@@ -3,8 +3,15 @@
 @section('content')
 
 <div class="container">
-  <div class="row">
+<div class="row">
     <div class="col-md-9 col-md-offset-1 col-xs-9 col-xs-offset-1 col-sm-9 col-sm-offset-1">
+      
+      @if(! Auth::check())
+      <div class="alert alert-warning center " role="alert">
+        <strong>Login in to be able to change your match results</strong>
+      </div>
+      @endif
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <h1 class="center">{{ $tournament->tournament_name }} Tournament</h1>
@@ -17,7 +24,7 @@
           @endif
           <!-- List group -->
           <div class="list-group">
-            <table class="table table-bordered table-responsive table-hover results table-striped">
+            <table class="table table-bordered table-responsive table-hover results table-striped visible-xs-*">
               <h2>Group A</h2>
               <thead class="thead-inverse">
                 <tr>
