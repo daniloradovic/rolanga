@@ -40,8 +40,8 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-md-4 col-md-offset-5 col-sm-4 col-sm-offset-5 col-xs-4 col-xs-offset-5">
-					<button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-success col-md-4 col-sm-4 col-xs-4" id="match{{ $match->id }}">Save</button>
+				<div class="col-md-4 col-md-offset-5 col-sm-12 col-xs-12">
+					<button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-success col-md-4 col-sm-12 col-xs-12" id="match{{ $match->id }}">Save</button>
 				</div>
 			</div>
 		</form>

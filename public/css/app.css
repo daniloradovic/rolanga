@@ -7179,8 +7179,8 @@ tr {
 }
 
 .round-heading{
-    margin: 10px 20px 10px 20px !important;
-    padding: 10px 5px 10px 5px !important;
+    margin: 10px 0px 10px 0px !important;
+    padding: 10px 0px 10px 0px !important;
 }
 
 .round {
@@ -7207,8 +7207,8 @@ tr {
 }
 
 .game_item{
-    margin-right: 20px;
-    margin-left: 20px;
+    margin-right: 2px;
+    margin-left: 2px;
 }
 
 .danger{
