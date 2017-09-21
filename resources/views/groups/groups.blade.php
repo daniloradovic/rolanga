@@ -7,7 +7,7 @@
     <div class="col-md-9 col-md-offset-1 ">
       <div class="panel panel-default">
         <div class="panel-heading">
-        <h3 class="center">Create Groups for {{ $tournament->tournament_name }} </h3>
+        <h3 class="center">Create Groups for {{ $tournament->tournament_name }}</h3>
         </div>
         
         <div class="panel-body">
