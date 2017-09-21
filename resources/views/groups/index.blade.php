@@ -80,7 +80,7 @@
                           <div class="participants">
                             <form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}/edit" method="GET">
                               {{csrf_field()}}
-                              <table class="table table-responsive table-hover list-group-item">
+                              <table class="table table-responsive table-hover">
                                 <thead>
                                   <tr class="tr-border-bottom">
                                     <th class="center col-md-2 col-xs-2">#</th>
@@ -188,7 +188,7 @@
                             <div class="participants">
                               <form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}/edit" method="GET">
                                 {{csrf_field()}}
-                                <table class="table table-responsive table-hover points list-group-item">
+                                <table class="table table-responsive table-hover points">
                                   <thead>
                                     <tr class="tr-border-bottom">
                                       <th class="center col-md-2 col-xs-2">#</th>

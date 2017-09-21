@@ -71,7 +71,7 @@ class Group extends Model
             
             if($usersNo % 2 != 0)
             {
-                $round->player_off = $groupUsers[$playerFreeNo]['id'];
+                $round->player_off = $groupUsers[$usersNo-1]['id'];
                 $round->save();
             }
             

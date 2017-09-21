@@ -58,8 +58,8 @@ class Round extends Model
             for($m=0; $m<($usersNo-1)/2; $m++)
             {   
                 $matches[$m] = $this->matches()->create([
-                    'first_player_id' => $groupUsers[$m]['id'],
-                    'second_player_id' => $groupUsers[$usersNo-1-$m]['id'],
+                    'first_player_id' => $groupUsers[$m*2]['id'],
+                    'second_player_id' => $groupUsers[$m*2+1]['id'],
                     'group_id' => $group->id
                     ]);
 
