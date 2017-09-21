@@ -7,7 +7,7 @@
       <div class="col-md-9 col-md-offset-1 col-xs-12 col-sm-12">
         
         @if(! Auth::check())
-        <div class="alert alert-warning center " role="alert">
+        <div class="alert alert-warning center" role="alert">
           <strong>Login in to be able to change your match results</strong>
         </div>
         @endif
@@ -24,18 +24,18 @@
             @endif
             <!-- List group -->
             <div class="list-group">
-              <table class="table table-bordered table-responsive table-hover table-striped results list-group-item">
+              <table class="table table-responsive table-hover table-striped results list-group-item">
                 <h2 align="center">Group A</h2>
                 <thead class="thead-inverse">
                   <tr>
-                    <th class="col-md-1 col-xs-2 center">#</th>
-                    <th class="col-md-2 col-xs-2 center">Player</th>
-                    <th class="col-md-1 col-xs-2 center">P</th>
-                    <th class="col-md-1 col-xs-2 center">W</th>
-                    <th class="col-md-1 col-xs-2 center">D</th>
-                    <th class="col-md-1 col-xs-2 center">L</th>
-                    <th class="col-md-1 col-xs-2 center">+/-</th>
-                    <th class="col-md-1 col-xs-2 center">Pts</th>
+                    <th class="col-md-1 col-xs-1 center">#</th>
+                    <th class="col-md-1 col-xs-1 center">Player</th>
+                    <th class="col-md-1 col-xs-1 center">P</th>
+                    <th class="col-md-1 col-xs-1 center">W</th>
+                    <th class="col-md-1 col-xs-1 center">D</th>
+                    <th class="col-md-1 col-xs-1 center">L</th>
+                    <th class="col-md-1 col-xs-1 center">+/-</th>
+                    <th class="col-md-1 col-xs-1 center">Pts</th>
                   </tr>
                 </thead>
                 <?php $i = 0 ?>
@@ -49,7 +49,7 @@
                     <td class="center">{{ $user->pivot->wins }}</td>
                     <td class="center">{{ $user->pivot->draws }}</td>
                     <td class="center">{{ $user->pivot->losses }}</td> 
-                    <td class="center">{{ $user->pivot->games_won }} : {{ $user->pivot->games_lost }}</td>
+                    <td class="center">{{ $user->pivot->games_won }}:{{ $user->pivot->games_lost }}</td>
                     <td class="center">{{ $user->pivot->points }}</td>                           
                   </tr>
                   @endforeach
@@ -80,9 +80,9 @@
                           <div class="participants">
                             <form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}/edit" method="GET">
                               {{csrf_field()}}
-                              <table class="table table-bordered table-responsive points list-group-item">
+                              <table class="table table-responsive table-hover list-group-item">
                                 <thead>
-                                  <tr>
+                                  <tr class="tr-border-bottom">
                                     <th class="center col-md-2 col-xs-2">#</th>
                                     @foreach($match->sets as $set)
                                     <th class="center col-md-2 col-xs-2">Set{{ $set->set_number }}</th>
@@ -90,7 +90,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
+                                  <tr class="tr-border-bottom">
                                     <th class="col-md-2 col-xs-2 center">{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
                                     @foreach($match->sets as $set)
                                     <td class="center col-md-2 col-xs-2">
@@ -98,7 +98,7 @@
                                     </td>
                                     @endforeach
                                   </tr>
-                                  <tr>
+                                  <tr class="tr-border-bottom">
                                     <th class="col-md-2 col-xs-2 center">{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
                                     @foreach($match->sets as $set)
                                     <td class="center col-md-2 col-xs-2">
@@ -132,18 +132,18 @@
               </div>
             </div>
               <div class="list-group">
-                <table class="table table-bordered table-responsive table-hover table-striped results list-group-item">
+                <table class="table table-responsive table-hover table-striped results list-group-item">
                   <h2 align="center">Group B</h2>
                   <thead class="thead-inverse">
                     <tr>
-                      <th class="col-md-1 col-xs-2 center">#</th>
-                      <th class="col-md-2 col-xs-2 center">Player</th>
-                      <th class="col-md-1 col-xs-2 center">P</th>
-                      <th class="col-md-1 col-xs-2 center">W</th>
-                      <th class="col-md-1 col-xs-2 center">D</th>
-                      <th class="col-md-1 col-xs-2 center">L</th>
-                      <th class="col-md-1 col-xs-2 center">+/-</th>
-                      <th class="col-md-1 col-xs-2 center">Pts</th>
+                      <th class="col-md-1 col-xs-1 center">#</th>
+                      <th class="col-md-1 col-xs-1 center">Player</th>
+                      <th class="col-md-1 col-xs-1 center">P</th>
+                      <th class="col-md-1 col-xs-1 center">W</th>
+                      <th class="col-md-1 col-xs-1 center">D</th>
+                      <th class="col-md-1 col-xs-1 center">L</th>
+                      <th class="col-md-1 col-xs-1 center">+/-</th>
+                      <th class="col-md-1 col-xs-1 center">Pts</th>
                     </tr>
                   </thead>
                   <?php $i = 0 ?>
@@ -157,19 +157,19 @@
                       <td class="center">{{ $user->pivot->wins }}</td>
                       <td class="center">{{ $user->pivot->draws }}</td>
                       <td class="center">{{ $user->pivot->losses }}</td> 
-                      <td class="center">{{ $user->pivot->games_won }} : {{ $user->pivot->games_lost }}</td>
+                      <td class="center">{{ $user->pivot->games_won }}:{{ $user->pivot->games_lost }}</td>
                       <td class="center">{{ $user->pivot->points }}</td>                         
                     </tr>
                     @endforeach
                   </tbody>
                 </table>
                 <div class="center round">
-                  <button class="btn btn-primary col-md-4 col-md-offset-4 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1 center" id="showGamesB" type="button" data-toggle="collapse" data-target="#collapseGroupB" aria-expanded="false" aria-controls="collapseGroupB">Show Games
+                  <button class="btn btn-primary col-md-4 col-md-offset-4 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1" id="showGamesB" type="button" data-toggle="collapse" data-target="#collapseGroupB" aria-expanded="false" aria-controls="collapseGroupB">Show Games
                   </button>
                 </div>
                 <div class="group collapse" id="collapseGroupB">
                   @foreach($tournament->groups[1]->rounds as $round)
-                  <div class="round">
+                  <div class="round center">
                     <div id="accordionB" role="tablist" aria-multiselectable="true">
                       <div class="center round-heading well well-sm">
                         <div role="tab" id="headingB{{$round->round_number}}">
@@ -188,9 +188,9 @@
                             <div class="participants">
                               <form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}/edit" method="GET">
                                 {{csrf_field()}}
-                                <table class="table table-bordered table-responsive points list-group-item">
+                                <table class="table table-responsive table-hover points list-group-item">
                                   <thead>
-                                    <tr>
+                                    <tr class="tr-border-bottom">
                                       <th class="center col-md-2 col-xs-2">#</th>
                                       @foreach($match->sets as $set)
                                       <th class="center col-md-2 col-xs-2">Set{{ $set->set_number }}</th>
@@ -198,7 +198,7 @@
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    <tr >
+                                    <tr class="tr-border-bottom">
                                       <th class="col-md-2 col-xs-2 center">{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</th>
                                       @foreach($match->sets as $set)
                                       <td class="center col-md-2 col-xs-2">
@@ -206,7 +206,7 @@
                                       </td>
                                       @endforeach
                                     </tr>
-                                    <tr>
+                                    <tr class="tr-border-bottom">
                                       <th class="col-md-2 col-xs-2 center">{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</th>
                                       @foreach($match->sets as $set)
                                       <td class="center col-md-2 col-xs-2">
@@ -246,7 +246,7 @@
                   {{ csrf_field() }} 
                   {{ method_field('delete') }}
 
-                  <button type="button" class="btn btn-primary btn-large btn-danger  col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12" data-toggle="modal" data-target="#deleteTournament{!! $tournament->id !!}">Delete Tournament</button>
+                  <button type="button" class="btn btn-danger col-md-4 col-md-offset-4 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1" data-toggle="modal" data-target="#deleteTournament{!! $tournament->id !!}">Delete Tournament</button>
                   <div class="modal fade" id="deleteTournament{!! $tournament->id !!}" tabindex="-1" role="dialog" aria-labelledby="deleteTournamentLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">

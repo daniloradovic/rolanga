@@ -9,7 +9,7 @@
 				<form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}" method="POST">
 					{{csrf_field()}}
 					{{ method_field('patch') }}
-					<table class="table table-bordered table-hover results points">
+					<table class="table table-bordered table-hover results">
 						<thead>
 							<tr>
 								<th class="center">#</th>
