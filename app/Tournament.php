@@ -11,6 +11,8 @@ class Tournament extends Model
 {	
 
 
+	protected $dates = ['start_date'];
+
 	protected $fillable = [
 	'tournament_name', 'groups_number', 'start_date', 'user_list'
 	];

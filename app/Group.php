@@ -49,28 +49,43 @@ class Group extends Model
     public function generateRounds()
     {
         $start = $this->tournament->start_date;
+        $roundStart = $start->subDays(7);    
 
-        if((count($this->users)) % 2 != 0){
+        $userNumber = $this->users->count();
+        $loopNumber = ($userNumber % 2 == 0) ? ($userNumber - 1) * 2 : $userNumber * 2;
 
-            for ($i=0; $i<(count($this->users))*2; $i++){
+        for ($i = 0; $i < $loopNumber; $i++)
+        {
+            
+            $roundStart->addDays(7);
+            $rounds[$i] = $this->rounds()->create([
+                'round_number' => $i+1,
+                'start_date' => $roundStart
+            ]);
 
-                $rounds[$i] = $this->rounds()->create([
-                    'round_number' => $i+1,
-                    'start_date' => date('Y-m-d', strtotime("+$i weeks $start"))
-                    ]);
-            }
         }
 
-        else {
+        // if((count($this->users)) % 2 != 0){
 
-            for ($i=0; $i<(count($this->users))*2-1; $i++){
+        //     for ($i=0; $i<(count($this->users))*2; $i++){
+        //         $roundStart->addDays(7);
+        //         $rounds[$i] = $this->rounds()->create([
+        //             'round_number' => $i+1,
+        //             'start_date' => $roundStart)
+        //             ]);
+        //     }
+        // }
 
-                $rounds[$i] = $this->rounds()->create([
-                    'round_number' => $i+1,
-                    'start_date' => date('Y-m-d', strtotime("+$i weeks $start"))
-                    ]);
-            }
-        }
+        // else {
+
+        //     for ($i=0; $i<(count($this->users) - 1) * 2; $i++){
+        //         $roundStart->addDays(7);
+        //         $rounds[$i] = $this->rounds()->create([
+        //             'round_number' => $i+1,
+        //             'start_date' => date('Y-m-d', strtotime("+$i weeks $start"))
+        //             ]);
+        //     }
+        // }
         
         $groupUsers = ($this->users)->toArray();
         
