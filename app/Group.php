@@ -10,7 +10,7 @@ use App\User;
 
 class Group extends Model
 {
-    
+
     protected $fillable = [
 
     'group_name', 'tournament_id'
@@ -22,7 +22,7 @@ class Group extends Model
     {
 
         return $this->belongsToMany(User::class, 'groups_users')->withPivot('user_id','group_id','points','wins','losses','draws','matches_played', 'games_won', 'games_lost')->orderBy('pivot_points','desc');
-    
+
     }
 
     // one to many relationship with matches
@@ -48,20 +48,33 @@ class Group extends Model
 
     public function generateRounds()
     {
-       
         $start = $this->tournament->start_date;
 
-        for ($i=0; $i<(count($this->users))*2-2; $i++){
+        if((count($this->users)) % 2 != 0){
 
-            $rounds[$i] = $this->rounds()->create([
-                'round_number' => $i+1,
-                'start_date' => date('Y-m-d', strtotime("+$i weeks $start"))
-                ]);
+            for ($i=0; $i<(count($this->users))*2; $i++){
+
+                $rounds[$i] = $this->rounds()->create([
+                    'round_number' => $i+1,
+                    'start_date' => date('Y-m-d', strtotime("+$i weeks $start"))
+                    ]);
+            }
+        }
+
+        else {
+
+            for ($i=0; $i<(count($this->users))*2-1; $i++){
+
+                $rounds[$i] = $this->rounds()->create([
+                    'round_number' => $i+1,
+                    'start_date' => date('Y-m-d', strtotime("+$i weeks $start"))
+                    ]);
+            }
         }
         
         $groupUsers = ($this->users)->toArray();
         
-        $usersNo = count($groupUsers);
+        $usersNo = count($this->users);
 
         $playerFreeNo = round($usersNo/2, 0, PHP_ROUND_HALF_DOWN);        
         
@@ -73,17 +86,19 @@ class Group extends Model
             {
                 $round->player_off = $groupUsers[$usersNo-1]['id'];
                 $round->save();
-            }
-            
-            $first = array_splice($groupUsers,0,1)[0];
-           
-            array_unshift($groupUsers, array_pop($groupUsers));
-           
-            array_unshift($groupUsers, $first);
-            
-            $groupUsers;
 
+                // $last = array_splice($groupUsers,$usersNo-1,1);
+
+                array_unshift($groupUsers, array_pop($groupUsers));
+                // array_unshift($groupUsers, $last);
+            }
+            elseif($usersNo % 2 == 0){
             
+                $first = array_splice($groupUsers,0,1)[0];
+
+                array_unshift($groupUsers, array_pop($groupUsers));
+                array_unshift($groupUsers, $first);
+            }
 
         }
     }

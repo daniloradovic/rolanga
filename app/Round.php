@@ -29,15 +29,11 @@ class Round extends Model
 	}
 
 
-	public function generateMatches($groupUsers)
+	public function generateMatches(&$groupUsers)
     {   
         $group = $this->group;
-
-        // $groupUsers = ($group->users)->toArray();
         
-        $usersNo = count($group->users);
-
-        $playerFreeNo = round($usersNo/2, 0, PHP_ROUND_HALF_DOWN);
+        $usersNo = $group->users->count();
         
         $roundNumber = $this->round_number;
 
@@ -53,13 +49,13 @@ class Round extends Model
         	}
         }
 
-        else
+        elseif($usersNo % 2 != 0)
         {
             for($m=0; $m<($usersNo-1)/2; $m++)
             {   
                 $matches[$m] = $this->matches()->create([
-                    'first_player_id' => $groupUsers[$m*2]['id'],
-                    'second_player_id' => $groupUsers[$m*2+1]['id'],
+                    'first_player_id' => $groupUsers[$m]['id'],
+                    'second_player_id' => $groupUsers[$usersNo-2-$m]['id'],
                     'group_id' => $group->id
                     ]);
 
