@@ -6,6 +6,10 @@
 	<div class="row">
 		<div class="game_item" id="match{{ $match->id }}">                                        
 			<div class="participants">
+				
+					<a class="btn btn-large btn-primary btn-space col-md-4 col-md-offset-4 col-xs-12 " href="/tournaments/{{ $tournament->id }}/groups"><i class="glyphicon glyphicon-menu-left"></i> Back to {{ $tournament->tournament_name }}</a>
+
+				
 				<form action="/tournaments/{{ $tournament->id }}/matches/{{ $match->id }}" method="POST">
 					{{csrf_field()}}
 					{{ method_field('patch') }}
@@ -40,9 +44,9 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-md-4 col-md-offset-5 col-sm-12 col-xs-12">
-					<button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-success col-md-4 col-sm-12 col-xs-12" id="match{{ $match->id }}">Save</button>
-				</div>
+				
+					<button type="submit" name="matchId" value="{{ $match->id }}" class="btn btn-large btn-success col-md-4 col-md-offset-4 col-xs-12" id="match{{ $match->id }}">Save <i class="glyphicon glyphicon-floppy-save"></i></button>
+				
 			</div>
 		</form>
 	</div>

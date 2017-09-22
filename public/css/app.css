@@ -7229,4 +7229,7 @@ tr {
     border-bottom: 1px solid #ddd !important;
 }
 
-
+.btn-space {
+    margin-top: 10px;
+    margin-bottom: 20px !important;
+}
