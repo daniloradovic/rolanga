@@ -19,7 +19,7 @@
 							</tr>
 						</thead>
 						<tbody>
-
+							{{-- First player set results to add/edit --}}
 							<tr class="{{ (Auth::check() && Auth::user()->id == $match->first_player_id) ? 'info' : ''  }}">
 								<td class="center">{{$users->where('id','=',$match->first_player_id)->pluck('name')->first()}}</td>
 								@foreach($match->sets as $set)
@@ -28,12 +28,12 @@
 								</td>
 								@endforeach
 							</tr>
-
+							{{-- Second player set results to add/edit --}}
 							<tr class="{{ (Auth::check() && Auth::user()->id == $match->second_player_id) ? 'info' : ''  }}">
 								<td class="center">{{$users->where('id','=',$match->second_player_id)->pluck('name')->first()}}</td>
 								@foreach($match->sets as $set)
 								<td class="center"> 
-									<input type="number" class="form-control center" id="set{{ $set->id }}player2" name="set{{ $set->id }}player2" max="7" min="0" value="{{ old('name', $set->first_player_games)}}">
+									<input type="number" class="form-control center" id="set{{ $set->id }}player2" name="set{{ $set->id }}player2" max="7" min="0" value="{{ old('name', $set->second_player_games)}}">
 								</td>
 								@endforeach
 							</tr>  
