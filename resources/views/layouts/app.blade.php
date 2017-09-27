@@ -74,7 +74,7 @@
                                 document.getElementById('logout-form').submit();"> <i class="glyphicon glyphicon-log-out"></i> 
                                 Logout
                                 </a>
-                                <a href="/users/{{ Auth::user()->id }}"><i class="glyphicon glyphicon-user"></i> Show {{ Auth::user()->name }}</a>
+                                <a href="/users/{{ Auth::user()->id }}"> Show {{ Auth::user()->name }}</a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
@@ -83,7 +83,7 @@
                         </ul>
                     </li>
                     @endif
-                    <li><a href="/users"> Active Players</a></li>
+                    <li><a href="/users">Active Players</a></li>
                 </ul>
             </div>
         </div>

@@ -75,5 +75,14 @@ class LoginController extends Controller
             ->withErrors($errors);
         
     }
+    // overwrite logout function to change return redirect method
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect()->back();
+    }
 
 }

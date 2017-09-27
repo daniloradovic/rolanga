@@ -15,10 +15,6 @@
 						<table class="table table-condensed">
 							<tbody>
 								<tr>
-									<td>Email:</td>
-									<td>{{ $user->email }}</td>
-								</tr>
-								<tr>
 									<td>Joined:</td>
 									<td>{{ \Carbon\Carbon::parse($user->created_at)->toFormattedDateString() }}</td>
 								</tr>
@@ -37,11 +33,12 @@
 					<form enctype="multipart/form-data" action="/users/{{ $user->id }}" method="POST">
 						{{ csrf_field() }}
 						<label class="label-item">Update Profile Image</label>
-						<label class="btn btn-sm btn-default btn-file label-item col-xs-12">
+						<label class="btn btn-sm btn-default btn-file label-item col-xs-12 ">
 							Chose picture<input type="file" name="avatar" style="display:none;" class="btn btn-default btn-file">
 						</label>
-						<input type="submit" class="btn btn-sm btn-primary label-item col-xs-12">
+						<input type="submit" class="btn btn-sm btn-default label-item col-xs-12">
 					</form>
+					<a href="/users/{{ $user->id }}/edit" class="btn btn-sm btn-default label-item player-item col-xs-12">Edit profile</a>
 					@endif
 				</div>
 			</div>

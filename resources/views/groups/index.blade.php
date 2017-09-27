@@ -234,6 +234,9 @@
                                                         </tr>
                                                     </tbody>
                                                 </table>
+                                                <small>
+                                                Last modified by {{ App\User::where('id','=', $match->last_modified_by)->pluck('name')->first() }}
+                                                </small>
                                                 @if (Auth::check())
                                                     @if ((Auth::user()->id == $match->first_player_id) || (Auth::user()->id == $match->second_player_id) || Auth::user()->roles()->where('name','=','admin')->exists())
                                                     <div class="additional_content">
