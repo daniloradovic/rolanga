@@ -40,8 +40,9 @@ class SetsController extends Controller
 
 	public function update(Request $request)
 	{
-		
-		$match = Match::find($request->matchId);
+			$loggedInPlayer = $request->loggedInPlayer;
+
+			$match = Match::find($request->matchId);
 		
 			$matchId = $request->matchId;
 			
@@ -185,6 +186,7 @@ class SetsController extends Controller
 				$match->match_played = false;
 			}
 
+			$match->last_modified_by = $loggedInPlayer;
 			$match->save();
 
 			foreach($group->rounds as $round)
@@ -206,6 +208,8 @@ class SetsController extends Controller
 				$gamesWon = 0;
 
 				$gamesLost = 0;
+
+				$gameRatio = 0;
 				
 				foreach ($group->matches as $match){
 					if (($user->id == $match->first_player_id || $user->id == $match->second_player_id) && ($match->draw == true)){
@@ -229,15 +233,16 @@ class SetsController extends Controller
 				
 				$userId = $user->id;
 
-				$group->users()->updateExistingPivot($userId, ['wins'=> $winsNo, 'losses' => $lossesNo, 'draws' => $drawsNo, 'points' => ($winsNo*3 + $drawsNo), 'matches_played' => $matches_played, 'games_won' => $gamesWon, 'games_lost' => $gamesLost]);
+				$gameRatio = $gamesWon - $gamesLost;
+
+				$group->users()->updateExistingPivot($userId, ['wins'=> $winsNo, 'losses' => $lossesNo, 'draws' => $drawsNo, 'points' => ($winsNo*3 + $drawsNo), 'matches_played' => $matches_played, 'games_won' => $gamesWon, 'games_lost' => $gamesLost, 'game_ratio' => $gameRatio]);
 				
 			}
 
-			
-
-			$users = $group->users->sortByDesc('pivot_points');
+			$users = $group->users->sortByDesc('pivot_points')->sortByDesc('pivot_game_ratio');
 			
 			return redirect()->route('showGroups', ['tournament' => $tournament->id]);
+
 		}
 			else{
 				return redirect()->route('showGroups', ['tournament' => $tournament->id])->withErrors(['Nisi autorizovan za ovu akciju MAGARCE', 'The Message']);

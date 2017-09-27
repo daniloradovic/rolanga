@@ -42,3 +42,7 @@ Route::patch('/tournaments/{tournament}/matches/{match}', 'SetsController@update
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('register/verify/{token}', 'Auth\RegisterController@verify'); 
+
+Route::resource('users','UsersController');
+
+Route::post('users/{user}', 'UsersController@update_avatar');

@@ -68,9 +68,12 @@ class LoginController extends Controller
             return response()->json($errors, 422);
         }
 
+        
+        
         return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors($errors);
+        
     }
 
 }
