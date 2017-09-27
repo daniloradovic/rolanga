@@ -3,11 +3,12 @@
 
 @section('content')
 
-
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-9 col-md-offset-1 col-xs-12">
+		@if (Session::has('message'))
+                <div class="alert alert-info">{{ Session::get('message') }}</div>
+        @endif
 			<div class="panel panel-default">
 				@if($tournaments->isEmpty())
 				<div class="panel-heading center">NO ACTIVE TOURNAMENTS</div>

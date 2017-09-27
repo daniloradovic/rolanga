@@ -21,7 +21,7 @@ class Group extends Model
     public function users()
     {
 
-        return $this->belongsToMany(User::class, 'groups_users')->withPivot('user_id','group_id','points','wins','losses','draws','matches_played', 'games_won', 'games_lost')->orderBy('pivot_points','desc');
+        return $this->belongsToMany(User::class, 'groups_users')->withPivot('user_id','group_id','points','wins','losses','draws','matches_played', 'games_won', 'games_lost', 'game_ratio')->orderBy('pivot_points','desc')->orderBy('pivot_game_ratio', 'desc');
 
     }
 
