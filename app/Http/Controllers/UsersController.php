@@ -55,11 +55,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-       
         $user = User::find($id);
-
         return view('users.show',compact('user'));
-
     }
 
     /**
@@ -70,11 +67,14 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        
         $user = User::find($id);
+        if(Auth::check() && Auth::user()->id == $user->id){    
+            return view('users.edit',compact('user'));
+        }
 
-        return view('users.edit',compact('user'));
-
+        else{
+            return redirect()->route('login');
+        }
     }
 
     /**
@@ -98,7 +98,8 @@ class UsersController extends Controller
             return redirect('users/' . $id . '/edit')
                 ->withErrors($validator)
                 ->withInput($request->except('password'));
-        } else {
+        } 
+        else {
             // store
             $user = User::find($id);
             $user->name       = $request->get('name');
@@ -127,8 +128,7 @@ class UsersController extends Controller
     {
 
         // Handle upload of users avatar
-        if($request->hasFile('avatar'))
-        {
+        if($request->hasFile('avatar')){
             $avatar = $request->file('avatar');
             $filename = time() . '.' . $avatar->getClientOriginalExtension();
             Image::make($avatar)->resize(300, 300)->save( public_path('/uploads/avatars/' . $filename));
